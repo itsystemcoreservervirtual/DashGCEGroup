@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mis indicadores</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f7f9;--card:#fff;--tx:#1b1f24;--mu:#6b7480;--bd:#e3e6ea;--ok:#2e9e6b;--wa:#e8a317;--bad:#d64545;--ac:#3b6fd4;--rc:12px;--rb:5px;--rk:20px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171b;--card:#1d2127;--tx:#e8ebef;--mu:#9aa3ae;--bd:#2c323a;--ok:#3cc088;--wa:#f0b73a;--bad:#ee6a6a;--ac:#6b9aff}}
+:root[data-theme="dark"]{--bg:#14171b;--card:#1d2127;--tx:#e8ebef;--mu:#9aa3ae;--bd:#2c323a;--ok:#3cc088;--wa:#f0b73a;--bad:#ee6a6a;--ac:#6b9aff}
+
+:root[data-style="corp"]{--bg:#eef2f8;--card:#fff;--tx:#14213d;--mu:#5c6b84;--bd:#d6deec;--ok:#1f9d8a;--wa:#f2a900;--bad:#e5484d;--ac:#1d4ed8;--rc:6px;--rb:2px;--rk:6px}
+:root[data-style="oscuro"]{--bg:#14171b;--card:#1d2127;--tx:#e8ebef;--mu:#9aa3ae;--bd:#2c323a;--ok:#3cc088;--wa:#f0b73a;--bad:#ee6a6a;--ac:#6b9aff}
+:root[data-style="neon"]{--bg:#0b0f1a;--card:#121a2b;--tx:#e6f1ff;--mu:#7e8fb0;--bd:#22304d;--ok:#2ee6a6;--wa:#ffd166;--bad:#ff4d6d;--ac:#7c5cff;--rc:16px;--rb:8px;--rk:20px}
+:root[data-style="pastel"]{--bg:#fdf6f0;--card:#fffdfb;--tx:#3d3a4b;--mu:#8a8499;--bd:#efe3d9;--ok:#6dbf98;--wa:#f2b866;--bad:#e97f7f;--ac:#7d6bd9;--rc:18px;--rb:9px;--rk:20px}
+:root[data-style="dalt"]{--bg:#f7f7f5;--card:#fff;--tx:#1b1f24;--mu:#5f6670;--bd:#dedede;--ok:#0072b2;--wa:#e69f00;--bad:#d55e00;--ac:#333;--rc:8px;--rb:3px;--rk:8px}
+:root[data-style="min"]{--bg:#fff;--card:#fff;--tx:#111;--mu:#666;--bd:#e5e5e5;--ok:#2b2b2b;--wa:#9a9a9a;--bad:#d6001c;--ac:#111;--rc:0px;--rb:0px;--rk:0px}
+:root[data-shape="thin"] .tr{height:8px}:root[data-shape="thin"] .tr em{display:none}
+:root[data-shape="pill"] .tr,:root[data-shape="pill"] .tr i{border-radius:99px}
+:root[data-shape="sq"] .tr,:root[data-shape="sq"] .tr i{border-radius:0}
+select{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:16px}
+.w{max-width:1040px;margin:0 auto}
+h1{font-size:20px;margin:0 0 2px}.sub{color:var(--mu);font-size:13px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--rc);padding:12px;margin-bottom:14px;position:relative}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.two label.t{display:block;font-size:12px;font-weight:600;margin-bottom:4px}
+textarea{width:100%;height:100px;font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px;resize:vertical;white-space:pre}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+button{font:inherit;font-size:13px;padding:6px 12px;border-radius:var(--rk);border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}
+button.on,button.pr{background:var(--ac);border-color:var(--ac);color:#fff}
+label{font-size:12px;color:var(--mu)}
+input[type=number]{width:70px;font:inherit;font-size:13px;padding:5px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
+#msg{font-size:12px;color:var(--mu)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.hide{display:none}
+.kg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.k{background:var(--card);border:1px solid var(--bd);border-radius:var(--rc);padding:12px;cursor:pointer;border-top:4px solid var(--bd)}
+.k.ok{border-top-color:var(--ok)}.k.bad{border-top-color:var(--bad)}
+.k span{font-size:12px;color:var(--mu);display:block}.k b{display:block;font-size:24px;margin:2px 0}
+.k.ok b{color:var(--ok)}.k.bad b{color:var(--bad)}
+.k small{font-size:11px;color:var(--mu)}
+.row{display:grid;grid-template-columns:minmax(120px,230px) 1fr 80px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd)}
+.row:last-child{border:0}
+.nm{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tr{height:18px;background:var(--bd);border-radius:var(--rb);position:relative}
+.tr i{position:absolute;top:0;bottom:0;border-radius:var(--rb)}
+.tr u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--tx);opacity:.7}
+.nv{font-size:13px;text-align:right;font-weight:600}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.nd{color:var(--mu)}
+.sel{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.sel button{font-size:12px;padding:4px 10px}
+.hm{overflow-x:auto}
+table{border-collapse:collapse;font-size:12px;width:100%}
+th,td{padding:5px 7px;text-align:center;border-bottom:1px solid var(--bd);white-space:nowrap}
+th{font-weight:600;position:sticky;top:0;background:var(--card)}
+th small{display:block;font-weight:400;color:var(--mu)}
+td:first-child,th:first-child{text-align:left;position:sticky;left:0;background:var(--card);max-width:200px;overflow:hidden;text-overflow:ellipsis}
+td.ok{background:color-mix(in srgb,var(--ok) 20%,transparent);color:var(--tx)}
+td.bad{background:color-mix(in srgb,var(--bad) 24%,transparent);color:var(--tx)}
+td.nd,td.na{color:var(--mu)}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--mu);font-size:11px;font-family:inherit}
+.pt{cursor:pointer}.pt:hover circle{stroke:var(--tx);stroke-width:2}
+#tip{position:absolute;display:none;background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.18);pointer-events:none;max-width:260px;z-index:5}
+details{margin-top:12px}summary{cursor:pointer;font-size:13px;color:var(--ac)}
+.ob{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.ob div{display:flex;flex-direction:column;gap:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}.chip{font-size:12px;padding:3px 10px;border-radius:14px;border:1px solid var(--bd);color:var(--mu)}.chip.on{border-color:var(--ok);color:var(--ok)}
+.empty{color:var(--mu);font-size:13px;padding:8px 0}
+@media(max-width:620px){.two{grid-template-columns:1fr}.row{grid-template-columns:1fr 70px}.tr{grid-column:1/-1;order:3}}
+.w>.sub:not(#fechas),.w>.card,#v5 .bar,#v6 .bar,#v7 .bar{display:none}
+input[type=search]{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);width:240px;max-width:100%}
+.agg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.agc{background:var(--card);border:1px solid var(--bd);border-top:4px solid var(--ok);border-radius:var(--rc);padding:10px 12px}
+.agc.bad{border-top-color:var(--bad)}
+.agd .agc{background:transparent}
+.agh{margin-bottom:6px}.agh b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.agh small{font-size:11px;color:var(--mu)}
+.agr{display:flex;justify-content:space-between;gap:8px;font-size:12px;padding:3px 0;border-bottom:1px solid var(--bd)}.agr:last-child{border:0}.agr>span{color:var(--mu)}.agr b{font-weight:600;color:var(--tx)}.agr b.ok{color:var(--ok)}.agr b.bad{color:var(--bad)}.agr small{color:var(--mu);font-weight:400;margin-left:4px;font-size:11px}
+.rkr{display:grid;grid-template-columns:minmax(140px,250px) 1fr 70px;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--bd);border-radius:6px}
+.rkr.top{background:color-mix(in srgb,var(--wa) 16%,transparent)}.rkr.top .nm{font-weight:700}
+.pos{display:inline-block;min-width:28px;color:var(--mu);font-size:12px}
+@media(max-width:620px){.rkr{grid-template-columns:1fr 70px}.rkr .tr{grid-column:1/-1;order:3}}
+.agc.wa{border-top-color:var(--wa)}.agh b.wa{color:color-mix(in srgb,var(--wa) 65%,#000)}
+b.wa,.agr b.wa{color:color-mix(in srgb,var(--wa) 65%,#000)}.k.wa{border-top-color:var(--wa)}
+.hq{display:inline-block;width:14px;height:14px;line-height:13px;text-align:center;border:1px solid var(--mu);border-radius:50%;font-size:10px;color:var(--mu);cursor:help;margin-left:3px}
+#awardBar{display:none}#v9>.card:not(#wrk .card){display:none}
+.fbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
+
+
+.cs-tb{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cs-tb label{font-size:12.5px;color:var(--mu)}.cs-tb input{width:62px}
+.cs-seg{display:inline-flex;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.cs-seg button{border:0;border-radius:0;background:transparent;padding:7px 14px;font-size:13px;color:var(--mu);cursor:pointer;margin:0}
+.cs-seg button.on{background:var(--ac);color:#fff}
+.cs-in{font-size:12px;color:var(--mu);margin-top:6px;line-height:1.5}.cs-in b{color:var(--tx)}
+.sp{width:80px;height:22px;justify-self:end}
+.hm{overflow-x:auto;border:1px solid var(--bd);border-radius:10px}
+.hm table{border-collapse:separate;border-spacing:0;font-size:12px;min-width:100%}
+.hm th,.hm td{padding:6px 5px;text-align:center;white-space:nowrap;border-bottom:1px solid var(--bd);border-right:1px solid var(--bd)}
+.hm th:last-child,.hm td:last-child{border-right:0}
+.hm th{position:sticky;top:0;background:var(--card);z-index:2;font-weight:600;line-height:1.15}
+.hm th small{display:block;font-weight:500;color:var(--mu);font-size:10.5px}
+.hm th.we{background:color-mix(in srgb,var(--bd) 70%,var(--card))}
+.hm th:first-child,.hm td:first-child{position:sticky;left:0;text-align:left;background:var(--card);z-index:1;max-width:150px;min-width:110px;padding-left:8px;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.hm th:first-child{z-index:3}
+.hm td.ok{background:color-mix(in srgb,var(--ok) 24%,var(--card))}
+.hm td.bad{background:color-mix(in srgb,var(--bad) 22%,var(--card))}
+.hm td.bad2{background:color-mix(in srgb,var(--bad) 45%,var(--card))}
+.hm td.nd{color:var(--mu);opacity:.55}
+.hm td small{color:var(--mu);font-size:10px;margin-left:1px}
+.hm td.ac{font-weight:700}
+.hm tr.eq td{font-weight:700;border-top:2px solid var(--mu)}
+.hm tr:last-child td{border-bottom:0}
+.hl{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11.5px;color:var(--mu);margin-top:8px}
+.hl i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+@media(max-width:620px){.row .sp{grid-column:1/-1;order:2;justify-self:start}.hm th:first-child,.hm td:first-child{max-width:128px}.cs-seg button{padding:7px 11px}}
+
+.tpr{display:grid;grid-template-columns:minmax(150px,230px) 64px 74px 92px 64px minmax(120px,1fr) 118px;gap:8px;align-items:center;padding:7px 8px;border-bottom:1px solid var(--bd);font-size:13px}
+.tpr.hd{font-size:11px;color:var(--mu);font-weight:600;position:sticky;top:0;background:var(--card)}
+.tpr .n{text-align:right}.tpr .nm b{font-weight:600}
+.tpr.crit{background:color-mix(in srgb,var(--bad) 13%,transparent);border-left:4px solid var(--bad)}
+.tpr .tr{height:14px}
+.tpr .tr u{top:-4px;bottom:-4px;width:2px;opacity:.9}
+.tpr .tg{font-size:11px;padding:2px 8px;border-radius:12px;text-align:center;border:1px solid currentColor;white-space:nowrap}
+.tpr .tg.ov{color:var(--ac)}.tpr .tg.ok{color:var(--ok)}.tpr .tg.bad{color:var(--bad)}.tpr .tg.crit{background:var(--bad);color:#fff;border-color:var(--bad)}
+.k.ov{border-top-color:var(--ac)}.k.ov b{color:var(--ac)}
+.tpw{overflow-x:auto}.tpw .tpr{min-width:760px}
+
+/* ===== Paleta KPI (navy + bloques de color) ===== */
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#14213a;--card:#ffffff;--tx:#1c2333;--mu:#5f6b80;--bd:#e4e8f0;--ok:#1fa463;--wa:#f5b42a;--bad:#ef4f4c;--ac:#7155f0;--rc:16px;--rb:6px;--rk:12px;--c1:#fdc43c;--c2:#ff8a3d;--c3:#7155f0;--c4:#5b9dff;--c5:#14b8a6;--c6:#22b26b;--c7:#ef4f4c;--c8:#d63bb0}
+body{background:radial-gradient(900px 500px at 92% -8%,rgba(113,85,240,.35),transparent 60%),radial-gradient(700px 420px at -10% 105%,rgba(214,59,176,.22),transparent 60%),linear-gradient(180deg,#152442,#101b31);background-attachment:fixed;min-height:100vh}
+.w h1{color:#fff;font-size:30px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin:6px 0 4px}
+.w h1::after{content:"";display:block;width:120px;height:6px;border-radius:6px;margin-top:10px;background:linear-gradient(90deg,var(--c3),var(--c8))}
+#fechas{color:#b9c4da;font-size:13px;margin:8px 0 16px}
+.tabs{gap:10px;margin-bottom:16px}
+.tabs button{border:0;color:#fff;font-weight:700;padding:10px 18px;border-radius:12px;opacity:.82;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.tabs button.on{opacity:1;outline:3px solid #fff;outline-offset:2px}
+.tabs button:nth-child(8n+1){background:var(--c1);color:#3a2a00}.tabs button:nth-child(8n+2){background:var(--c2)}.tabs button:nth-child(8n+3){background:var(--c3)}.tabs button:nth-child(8n+4){background:var(--c4)}.tabs button:nth-child(8n+5){background:var(--c5)}.tabs button:nth-child(8n+6){background:var(--c6)}.tabs button:nth-child(8n+7){background:var(--c7)}.tabs button:nth-child(8n+8){background:linear-gradient(90deg,var(--c3),var(--c8))}
+.card{border:0;box-shadow:0 6px 18px rgba(0,0,0,.18);padding:16px}
+.card button.on,.card button.pr{background:var(--c3);border-color:var(--c3);color:#fff}
+.k{border:0;border-top:6px solid var(--bd);background:#f6f8fc}
+th,.hm th,.tpr.hd{background:#eef1fa}
+.hm th:first-child,.hm td:first-child,td:first-child,th:first-child{background:#fff}
+.hm th:first-child{background:#eef1fa}
+b.wa,.agr b.wa,.agh b.wa{color:#b07a00}
+.card select,.card input[type=search],.card input[type=number],.card input[type=month]{background:#f3f5fa;color:var(--tx);border-color:#d9deea}
+/* ranking */
+.rh{font-size:18px;margin:0 0 4px;text-transform:uppercase;letter-spacing:.3px}
+.rmu{color:var(--mu);font-size:13px;margin:6px 0 0}
+.wts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.wt{font-size:12px;padding:6px 10px;border-radius:10px;color:#fff;display:flex;gap:6px;align-items:baseline}
+.wt b{font-size:15px}.wt:nth-child(1){background:var(--c3)}.wt:nth-child(2){background:var(--c4)}.wt:nth-child(3){background:var(--c2)}.wt:nth-child(4){background:var(--c5)}.wt:nth-child(5){background:var(--c8)}
+.rrow{border-bottom:1px solid var(--bd);margin:0}.rrow:last-child{border:0}
+.rrow summary{list-style:none;display:grid;grid-template-columns:44px minmax(150px,260px) 1fr 56px;gap:10px;align-items:center;padding:9px 6px;cursor:pointer;color:var(--tx);font-size:14px}
+.rrow summary::-webkit-details-marker{display:none}
+.rp{font-size:18px;text-align:center;font-weight:700;color:var(--mu)}
+.rn2 b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rn2 small{color:var(--mu);font-size:11px}
+.rbar{position:relative;height:14px;background:var(--bd);border-radius:7px}
+.rbar i{position:absolute;left:0;top:0;bottom:0;border-radius:7px;background:var(--bad)}
+.rrow.wa .rbar i{background:var(--wa)}.rrow.ok .rbar i{background:var(--ok)}
+.rbar em{position:absolute;left:90%;top:-4px;bottom:-4px;width:2px;background:var(--tx);opacity:.6}
+.rv{text-align:right;font-weight:800;font-size:16px}
+.rrow.ok .rv{color:var(--ok)}.rrow.wa .rv{color:#b07a00}.rrow.bad .rv{color:var(--bad)}
+.rrow.top{background:linear-gradient(90deg,rgba(253,196,60,.18),transparent);border-radius:10px}
+.rrow.isme{outline:2px solid var(--c3);border-radius:10px}
+.rdet{display:flex;flex-wrap:wrap;gap:6px;padding:0 6px 10px 60px}
+.rc{font-size:12px;padding:3px 9px;border-radius:12px;background:#f1f3f8;color:var(--mu)}
+.rc.ok{background:color-mix(in srgb,var(--ok) 18%,#fff);color:#13693f}.rc.bad{background:color-mix(in srgb,var(--bad) 16%,#fff);color:#a52a27}
+@media(max-width:620px){.w h1{font-size:22px}.rrow summary{grid-template-columns:34px 1fr 50px}.rbar{grid-column:1/-1;order:4}.rdet{padding-left:6px}}
+
+.pseg{margin:0 0 14px}
+.perb{display:flex;gap:6px;padding:6px;border-radius:16px;background:rgba(10,18,34,.55);border:1px solid rgba(255,255,255,.12)}
+.perb button{flex:1;border:0;border-radius:12px;background:transparent;color:#d9e0ee;font-size:17px;font-weight:600;padding:10px 8px;line-height:1.25;opacity:1}
+.perb button small{display:block;font-size:12.5px;font-weight:400;color:#9fabc2;margin-top:2px}
+.perb button:hover{background:rgba(255,255,255,.06)}
+.perb button.on{background:linear-gradient(135deg,#b9a6f6,#9d86f3);color:#14102b}
+.perb button.on small{color:#3b335e}
+.pnote{color:#b9c4da;font-size:12px;margin-top:8px}
+@media(max-width:620px){.perb button{font-size:14px;padding:8px 4px}.perb button small{font-size:11px}}
+
+#intro{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center;background:radial-gradient(circle at 50% 40%,#2a4fb0,#0f1c45 70%);color:#fff;overflow:hidden;cursor:pointer;transition:opacity .6s ease,visibility .6s}
+#intro.out{opacity:0;visibility:hidden}
+#intro .em{font-size:clamp(40px,9vw,64px);display:flex;gap:14px;animation:ipop .8s cubic-bezier(.2,1.4,.4,1) both}
+#intro .em span{display:inline-block;animation:ibob 1.6s ease-in-out infinite}
+#intro .em span:nth-child(2){animation-delay:.2s}#intro .em span:nth-child(3){animation-delay:.4s}#intro .em span:nth-child(4){animation-delay:.6s}
+#intro h2{margin:0;font-size:clamp(22px,5.2vw,40px);line-height:1.25;font-weight:800;letter-spacing:.5px;max-width:760px}
+#intro h2 .w1{display:inline-block;opacity:0;transform:translateY(24px) scale(.9);animation:iword .6s ease forwards}
+#intro .kpis{max-width:820px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;opacity:0;animation:iword .7s ease 2.2s forwards}
+#intro .kp{min-width:140px;padding:10px 16px;border-radius:16px;background:rgba(30,55,130,.92);border:1px solid rgba(255,255,255,.28)}
+#intro .kp span{display:block;font-size:14px;font-weight:700;letter-spacing:1px;color:#fff}
+#intro .kp b{display:block;font-size:clamp(24px,6vw,34px);font-weight:800;margin:2px 0;color:#fff}
+#intro .kp small{color:#fff;opacity:.85;font-size:12px}
+#intro .bar{width:min(320px,70vw);height:6px;border-radius:99px;background:rgba(255,255,255,.2);overflow:hidden}
+#intro .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2ee6a6,#ffd166);animation:ifill 7.5s linear forwards}
+#intro small{opacity:.7;font-size:12px}
+#intro .em,#intro h2,#intro .kpis,#intro .bar,#intro>small{position:relative;z-index:2}
+#intro .fl{position:absolute;bottom:-40px;font-size:28px;opacity:0;animation:ifly 4s ease-in infinite}
+@keyframes ipop{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes ibob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes iword{to{opacity:1;transform:none}}
+@keyframes ifill{to{width:100%}}
+@keyframes ifly{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-110vh) rotate(40deg);opacity:0}}
+
+#intro .meme{position:relative;z-index:2;width:min(300px,82vw);padding:8px 10px 10px;border-radius:14px;border:3px solid #fff;background:linear-gradient(160deg,#6a4cf0,#d63bb0);box-shadow:0 10px 26px rgba(0,0,0,.4);opacity:0;transform:rotate(-3deg) scale(.6);animation:imeme .7s cubic-bezier(.2,1.5,.4,1) 3s forwards,iwob 2.4s ease-in-out 3.7s infinite}
+#intro .meme .mt,#intro .meme .mb{font-family:Impact,"Arial Black",system-ui,sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(14px,4vw,18px);line-height:1.1;color:#fff;letter-spacing:.5px;text-shadow:-1.5px -1.5px 0 #000,1.5px -1.5px 0 #000,-1.5px 1.5px 0 #000,1.5px 1.5px 0 #000;margin:2px 0}
+#intro .meme .me{font-size:clamp(46px,12vw,66px);line-height:1.15;margin:2px 0}
+#intro .note{position:relative;z-index:2;max-width:560px;padding:8px 14px;border-radius:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);font-weight:700;font-size:clamp(12px,3.4vw,15px);color:#fff;opacity:0;animation:iword .6s ease 2.9s forwards}
+@keyframes imeme{to{opacity:1;transform:rotate(-3deg) scale(1)}}
+@keyframes iwob{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.05)}}
+#intro{overflow-y:auto;justify-content:safe center}
+@media(max-width:560px){#intro{gap:10px;padding:14px}#intro .kpis{gap:8px}#intro .kp{min-width:0;flex:1 1 40%;padding:6px 8px}#intro .kp span{font-size:11px}#intro .kp b{font-size:22px}#intro .kp small{font-size:10px}#intro .em{font-size:36px}}
+@media (prefers-reduced-motion:reduce){#intro *{animation-duration:.01s!important;animation-delay:0s!important}}
+
+#objBtn{display:inline-flex;align-items:center;gap:10px;margin:0 0 16px;padding:10px 18px;border:0;border-radius:14px;background:linear-gradient(90deg,var(--c3),var(--c8));color:#fff;font-size:15px;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}
+#objBtn span{font-size:12px;opacity:.85;border-left:1px solid rgba(255,255,255,.4);padding-left:10px}
+#objBtn:hover{filter:brightness(1.08)}
+.om{position:fixed;inset:0;z-index:9000;background:rgba(8,14,28,.72);backdrop-filter:blur(3px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto}
+.om[hidden]{display:none}
+.omc{position:relative;width:min(760px,100%);background:#fff;color:var(--tx);border-radius:20px;padding:22px 22px 18px;box-shadow:0 20px 50px rgba(0,0,0,.45);animation:omin .25s ease}
+@keyframes omin{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.omx{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:0;background:#eef1fa;color:var(--tx);font-size:16px;padding:0;cursor:pointer}
+.omh{background:#14213a;color:#fff;border-radius:14px;padding:16px 18px;margin:0 0 6px}
+.omh small{color:#b9c4da;font-size:12px;text-transform:uppercase;letter-spacing:1px}
+.omh h2{margin:2px 0 8px;font-size:24px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.omh h2::after{content:"";display:block;width:90px;height:5px;border-radius:5px;margin-top:8px;background:linear-gradient(90deg,var(--c3),var(--c8))}
+.omp{display:inline-block;background:var(--c4);color:#fff;font-weight:700;font-size:13px;padding:4px 12px;border-radius:10px}
+.og{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--mu);margin:16px 0 8px}
+.ogr{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}
+.ot{background:var(--oc);color:#fff;border-radius:14px;padding:12px 14px;min-height:92px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.ot span{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;line-height:1.25}
+.ot b{font-size:30px;font-weight:800;line-height:1.1;margin-top:6px}
+.ot b em{font-style:normal;font-size:18px;font-weight:700;opacity:.85;margin-right:4px}
+.ot small{font-size:11px;opacity:.9;margin-top:2px}
+.ot[style*="--c1"]{color:#3a2a00}
+.omn{color:var(--mu);font-size:12px;margin:16px 0 0}
+@media(max-width:620px){.ogr{grid-template-columns:1fr 1fr}.ot b{font-size:24px}.omh h2{font-size:20px}#objBtn span{display:none}}
+
+.hbtns{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 16px}.hbtns #objBtn{margin:0}
+#mqBtn{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:0;border-radius:14px;background:linear-gradient(90deg,var(--c2),var(--c7));color:#fff;font-size:15px;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}
+#mqBtn span{font-size:12px;opacity:.85;border-left:1px solid rgba(255,255,255,.4);padding-left:10px}#mqBtn:hover{filter:brightness(1.08)}
+.mqs{margin-top:14px;grid-template-columns:repeat(3,1fr)}.mqs .ot{min-height:78px}
+.mk{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#14213a;color:#fff;border-radius:14px;padding:14px 18px;border-left:6px solid var(--c1)}
+.mk b{display:block;font-size:16px;text-transform:uppercase;letter-spacing:.3px}.mk small{color:#b9c4da;font-size:12px}
+.mk strong{font-size:32px;font-weight:800;color:var(--c1);white-space:nowrap}.mk strong i{font-style:normal;font-size:20px;margin-right:4px;opacity:.85}
+.mig{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.mi{background:#f6f8fc;border-radius:14px;padding:12px 14px;border-top:6px solid var(--oc);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.mih{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mih span{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+.mih em{font-style:normal;background:var(--oc);color:#fff;font-weight:700;font-size:12px;padding:2px 9px;border-radius:9px}
+.mi>b{display:block;font-size:28px;font-weight:800;margin:6px 0 6px;color:var(--tx)}.mi>b i{font-style:normal;font-size:17px;color:var(--mu);margin-right:4px}
+.mib{height:8px;background:var(--bd);border-radius:5px;overflow:hidden}.mib i{display:block;height:100%;background:var(--oc)}
+.mif{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-top:8px;min-height:22px}
+.mif small{font-size:11px;color:var(--mu);line-height:1.25}.mif strong{font-size:16px;white-space:nowrap}
+.mt{display:grid;grid-template-columns:1fr auto auto;gap:18px;align-items:center;margin-top:10px;background:linear-gradient(90deg,var(--c3),var(--c8));color:#fff;border-radius:14px;padding:12px 18px;font-weight:700;text-transform:uppercase}
+.mt strong{font-size:22px}
+.mp{border-radius:14px;overflow:hidden;border:1px solid color-mix(in srgb,var(--bad) 30%,#fff)}
+.mph,.mpr{display:grid;grid-template-columns:1fr 90px 130px;gap:10px;padding:10px 14px;align-items:center;font-size:14px}
+.mph{background:color-mix(in srgb,var(--bad) 14%,#fff);font-size:12px;font-weight:700;text-transform:uppercase;color:#a52a27}
+.mpr{border-top:1px solid color-mix(in srgb,var(--bad) 18%,#fff)}.mpr span:nth-child(2){font-weight:700;text-align:center}.mph span:nth-child(2){text-align:center}
+.mpr b{background:var(--bad);color:#fff;border-radius:9px;padding:4px 8px;text-align:center;font-size:12.5px}
+@media(max-width:620px){.mqs{grid-template-columns:1fr 1fr 1fr;gap:8px}.mqs .ot{padding:10px}.mqs .ot span{font-size:11px}.mqs .ot b{font-size:17px;white-space:nowrap}.mk strong{font-size:26px}.mph,.mpr{grid-template-columns:1fr 54px 104px;font-size:13px;padding:9px 10px}#mqBtn span{display:none}.mt{gap:10px}}
+.perb{display:none!important}
+</style></head><body><div id="intro" role="presentation"><span class="fl" style="left:5%;animation-delay:0.0s">⭐</span><span class="fl" style="left:17%;animation-delay:0.7s">🚀</span><span class="fl" style="left:29%;animation-delay:1.4s">📈</span><span class="fl" style="left:41%;animation-delay:2.1s">💪</span><span class="fl" style="left:53%;animation-delay:2.8s">🎯</span><span class="fl" style="left:65%;animation-delay:0.0s">✨</span><span class="fl" style="left:77%;animation-delay:0.7s">🌟</span><span class="fl" style="left:89%;animation-delay:1.4s">👏</span><div class="em"><span>🚀</span><span>📈</span><span>💪</span><span>🎯</span></div><h2><span class="w1" style="animation-delay:0.50s">BIEN</span> <span class="w1" style="animation-delay:0.72s">EQUIPO,</span> <span class="w1" style="animation-delay:0.94s">SEGUIMOS</span> <span class="w1" style="animation-delay:1.16s">EN</span> <span class="w1" style="animation-delay:1.38s">LA</span> <span class="w1" style="animation-delay:1.60s">MEJORA</span> <span class="w1" style="animation-delay:1.82s">DEL</span> <span class="w1" style="animation-delay:2.04s">NPS</span> <span class="w1" style="animation-delay:2.26s">Y</span> <span class="w1" style="animation-delay:2.48s">SOL!</span> 🙌</h2><div class="kpis" id="introK"></div><div class="note" id="introNote"></div><div class="meme" id="introMeme"></div><div class="bar"><i></i></div><small>Toca para entrar</small></div><div class="w">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><h1 style="margin-bottom:2px">Mis indicadores</h1><button id="replayBtn" type="button" title="Ver animación de bienvenida" style="font-size:13px">🎬 Ver animación</button></div>
+<div class="sub">Copia una tabla en Excel (con sus encabezados) y pulsa <b>Pegar tabla</b> o Ctrl+V en esta página; se reconoce sola. Los datos se procesan solo en tu navegador.</div>
+<div class="sub" id="fechas">Indicadores al 08/10 · Rellamadas 08/10 · Tipificación 08/10 · NPS 05/10 · Visor 06/10 · CSAT 15/10</div>
+<div class="hbtns"><button id="objBtn" type="button" onclick="objOpen()" aria-haspopup="dialog">🎯 <b>Objetivos del mes</b><span>Toca aquí para verlos</span></button><button id="mqBtn" type="button" onclick="mqOpen()" aria-haspopup="dialog">💰 <b>Maqueta de improductivos</b><span>Toca aquí para verla</span></button></div>
+
+<div class="card">
+ <div class="chips" id="chips"></div>
+ <div class="bar">
+  <button class="pr" onclick="pasteClip()">Pegar tabla</button>
+  <button onclick="go()">Actualizar</button>
+  
+  <button onclick="clr()">Limpiar</button>
+  <label>Mín. enc. NPS <input type="number" id="minN" value="1" min="1" onchange="setX('minN',this.value)"></label><label>Mín. enc. CSAT <input type="number" id="minE" value="5" min="1" onchange="setX('minE',this.value)"></label><span id="msg"></span>
+ </div>
+ <details id="adv"><summary>Ver o editar los datos pegados</summary><div class="two" style="margin-top:8px">
+  <div><label class="t">1) INDICADORES (con encabezados: Nombre Completo, Atendidas… CSAT)</label><textarea id="in1" placeholder="Pega la tabla de indicadores"></textarea></div>
+  <div><label class="t">2) NPS (Nombre Completo, NPS, SOL, Cant. Enc.)</label><textarea id="in3" placeholder="Pega la tabla de NPS"></textarea></div>
+  <div><label class="t">3) CSAT (Nombre Completo, Cant. Encuestas, CSAT)</label><textarea id="in4" placeholder="Pega la tabla de CSAT"></textarea></div>
+  <div><label class="t">4) Usabilidad Visor (Nombre Completo, Q USO, Total)</label><textarea id="in2" placeholder="Pega la tabla de USO"></textarea></div>
+  <div><label class="t">5) IP (Nombre Completo, Llamadas IP, Contención)</label><textarea id="in5" placeholder="Pega la tabla de IP"></textarea></div>
+ </div></details>
+</div>
+
+
+<div id="objM" class="om" role="dialog" aria-modal="true" aria-labelledby="objT" hidden onclick="if(event.target===this)objClose()">
+ <div class="omc">
+  <button class="omx" type="button" onclick="objClose()" aria-label="Cerrar">✕</button>
+  <div class="omh"><small>Octubre 2026</small><h2 id="objT">Objetivos del mes</h2><span class="omp">Masivo Convergente</span></div>
+  <h3 class="og">Indicadores del asesor</h3><div class="ogr"><div class="ot" style="--oc:var(--c3)"><span>NPS</span><b><em>≥</em>-22%</b></div><div class="ot" style="--oc:var(--c4)"><span>Solución (SOL)</span><b><em>≥</em>55%</b></div><div class="ot" style="--oc:var(--c2)"><span>Transferencias</span><b><em>≤</em>21%</b></div><div class="ot" style="--oc:var(--c7)"><span>Reitero 72 h</span><b><em>≤</em>21%</b></div><div class="ot" style="--oc:var(--c8)"><span>Reitero 30 min</span><b><em>≤</em>7%</b></div><div class="ot" style="--oc:var(--c2)"><span>Incremento de precio</span><b><em>≥</em>50%</b></div></div><h3 class="og">Encuestas</h3><div class="ogr"><div class="ot" style="--oc:var(--c6)"><span>CSAT / NPS</span><b><em>≥</em>9</b></div><div class="ot" style="--oc:var(--c5)"><span>Pregunta 2 NPS OUT</span><b><em>≥</em>8</b></div></div><h3 class="og">Operación</h3><div class="ogr"><div class="ot" style="--oc:var(--c4)"><span>NDS</span><b><em>≥</em>85%</b></div><div class="ot" style="--oc:var(--c3)"><span>Tramo</span><b><em>≥</em>75%</b></div><div class="ot" style="--oc:var(--c6)"><span>Contención de reclamos</span><b><em>≥</em>78%</b></div></div><h3 class="og">Consistencia del equipo</h3><div class="ogr"><div class="ot" style="--oc:var(--c1)"><span>Dispersión entre cuartiles</span><b><em><</em>30%</b><small>Todos los indicadores</small></div><div class="ot" style="--oc:var(--c2)"><span>Frente agente</span><b><em>≤</em>12%</b><small>Todos los indicadores</small></div></div>
+  <p class="omn">≥ mínimo a alcanzar · ≤ máximo permitido. En el dashboard verás en verde los indicadores que cumplen su objetivo.</p>
+ </div>
+</div>
+
+<div id="mqM" class="om" role="dialog" aria-modal="true" aria-labelledby="mqT" hidden onclick="if(event.target===this)mqClose()">
+ <div class="omc">
+  <button class="omx" type="button" onclick="mqClose()" aria-label="Cerrar">✕</button>
+  <div class="omh"><small>Variable mensual</small><h2 id="mqT">Maqueta de improductivos</h2><span class="omp" style="background:var(--c2)">Masivo Convergente</span></div>
+  <div class="ogr mqs">
+   <div class="ot" style="--oc:var(--c4)"><span>Sueldo</span><b>S/ 1,130</b></div>
+   <div class="ot" style="--oc:var(--c3)"><span>Peso del variable</span><b>20%</b></div>
+   <div class="ot" style="--oc:var(--c6)"><span>Importe a ganar</span><b>S/ 226</b></div>
+  </div>
+  <h3 class="og">🔑 Indicador llave (para acceder a la maqueta)</h3>
+  <div class="mk"><div><b>Llamadas facturables del mes</b><small>Más de 20 segundos y tipificadas</small></div><strong><i>≥</i>800</strong></div>
+  <h3 class="og">Indicadores que pagan</h3>
+  <div class="mig"><div class="mi" style="--oc:var(--c3)"><div class="mih"><span>Solución</span><em>40%</em></div><b><i>≥</i>55%</b><div class="mib"><i style="width:40%"></i></div><div class="mif"><small>Se paga con más de 5 encuestas</small><strong>S/ 90.40</strong></div></div><div class="mi" style="--oc:var(--c4)"><div class="mih"><span>NPS</span><em>20%</em></div><b><i>≥</i>-17%</b><div class="mib"><i style="width:20%"></i></div><div class="mif"><small>Se paga con más de 5 encuestas</small><strong>S/ 45.20</strong></div></div><div class="mi" style="--oc:var(--c6)"><div class="mih"><span>Efectividad</span><em>20%</em></div><b><i>≥</i>4%</b><div class="mib"><i style="width:20%"></i></div><div class="mif"><small></small><strong>S/ 45.20</strong></div></div><div class="mi" style="--oc:var(--c8)"><div class="mih"><span>Reitero 30 min</span><em>10%</em></div><b><i>≤</i>5.3%</b><div class="mib"><i style="width:10%"></i></div><div class="mif"><small></small><strong>S/ 22.60</strong></div></div><div class="mi" style="--oc:var(--c2)"><div class="mih"><span>Transferencia</span><em>10%</em></div><b><i>≤</i>16%</b><div class="mib"><i style="width:10%"></i></div><div class="mif"><small></small><strong>S/ 22.60</strong></div></div></div>
+  <div class="mt"><span>Total</span><span>100%</span><strong>S/ 226.00</strong></div>
+  <h3 class="og">⚠️ Penalizadores</h3>
+  <div class="mp"><div class="mph"><span>Indicador</span><span>Cant.</span><span>Penalidad</span></div>
+   <div class="mpr"><span>Suspensión / faltas injustificadas</span><span>≥ 1</span><b>100% + ventas</b></div>
+   <div class="mpr"><span>Amonestaciones</span><span>= 2</span><b>80% + ventas</b></div>
+   <div class="mpr"><span>Amonestaciones</span><span>≥ 3</span><b>100% + ventas</b></div>
+  </div>
+  <p class="omn">Los objetivos de la maqueta son los de esta tabla y pueden ser distintos a los objetivos del mes.</p>
+ </div>
+</div>
+<div class="tabs" id="tabs"></div>
+
+<div id="v0" class="hide"><div class="card"><div class="kg" id="kg"></div></div></div>
+<div id="v1" class="hide"><div class="pseg" id="ps1"></div><div class="card"><div class="bar" style="margin:0 0 10px"><label>Buscar asesor <input type="search" id="agq" list="agl" placeholder="Nombre del asesor" oninput="render()"></label><datalist id="agl"></datalist><button onclick="$('agq').value='';render()">Ver todos</button><span id="agn" style="font-size:12px;color:var(--mu)"></span></div><div class="sub" style="margin-bottom:8px">★ = indicadores clave (Transferencia, Rellamada 72h, Rellamada 30min, NPS y SOL) · <b class="ok">Verde</b>: 3 o más en objetivo · <b style="color:color-mix(in srgb,var(--wa) 65%,#000)">Ámbar</b>: 2 de 5 · <b class="bad">Rojo</b>: 0 o 1 de 5</div><div class="agg" id="ag"></div></div></div>
+<div id="v2" class="hide"></div>
+<div id="v10" class="hide"><div class="pseg" id="ps10"></div><div class="card"><div class="bar" style="margin:0 0 12px"><label>Mi nombre <select id="meSel" onchange="me=this.value;try{localStorage.setItem('gme',me)}catch(e){}render()"></select></label></div><div id="mi"></div></div></div>
+<div id="v9" class="hide"><div class="pseg" id="ps9"></div><div id="wrk"></div><div class="card" id="awardBar"><div class="bar" style="margin:0"><button class="pr" onclick="awardPdf()">🏆 Descargar PDF de reconocimiento</button><label>Mes <input type="month" id="awM" style="font:inherit;font-size:13px;padding:4px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)"></label><span id="awMsg" style="font-size:12px;color:var(--mu)"></span></div></div><div class="card"><div class="sel" id="s1"></div><div class="kg" id="k9"></div></div><div class="card"><div class="bar" style="margin:0 0 10px"><span class="sel" id="rko" style="margin:0"></span><label><input type="checkbox" id="onlyBad" onchange="render()"> Solo por mejorar</label></div><div id="l1"></div></div></div>
+<div id="v3" class="hide"></div>
+<div id="v7" class="hide"><div class="card"><div class="bar" style="margin:0 0 10px"><label>Alertar si está bajo <input type="number" id="lowP" value="50" min="1" max="100" onchange="setX('lowP',this.value)"> % del promedio</label></div><div class="kg" id="k7"></div></div><div class="card" id="l7"></div></div>
+<div id="v8" class="hide"><div class="card"><div class="bar" style="margin:0 0 10px"><label><input type="checkbox" id="onlyTip" onchange="render()"> Solo bajo tipificación (&lt;98%)</label></div><div class="fbar"><label>Buscar asesor <input type="search" id="fq8" list="dl8" placeholder="Nombre del asesor" oninput="render()"></label><datalist id="dl8"></datalist><button onclick="$('fq8').value='';render()">Ver todos</button></div><div class="kg" id="k8"></div></div><div class="card" id="l8"></div></div>
+<div id="v4" class="hide"><div class="card"><div class="sel" id="s4"></div><div class="fbar"><label>Buscar asesor <input type="search" id="fq4" list="dl4" placeholder="Nombre del asesor" oninput="render()"></label><datalist id="dl4"></datalist><button onclick="$('fq4').value='';render()">Ver todos</button></div><div class="kg" id="k4"></div></div><div id="mot4"></div><div class="card" id="cd4"><div class="cs-tb"><div class="cs-seg"><button id="nvA" onclick="npView('a')">Acumulado</button><button id="nvH" onclick="npView('h')">Mapa de calor</button></div></div><div id="np-gl"></div></div><div class="card hide" id="hm4"></div><div class="card" id="l4"></div></div>
+<div id="v5" class="hide"><div class="card"><div class="bar" style="margin:0 0 10px"><label>Objetivo CSAT <input type="number" step="any" id="oc" value="9" onchange="setX('oc',this.value)"></label><label>Focalizar si CSAT menor a <input type="number" step="any" id="fz" value="9" onchange="setX('fz',this.value)"></label></div><div class="fbar"><label>Buscar asesor <input type="search" id="fq5" list="dl5" placeholder="Nombre del asesor" oninput="render()"></label><datalist id="dl5"></datalist><button onclick="$('fq5').value='';render()">Ver todos</button></div><div class="kg" id="k5"></div></div><div id="mot5"></div><div class="card" id="cd5"><div class="cs-tb"><div class="cs-seg"><button id="cvA" onclick="csView('a')">Acumulado</button><button id="cvH" onclick="csView('h')">Mapa de calor</button></div><label>Meta diaria <input type="number" step="any" id="cmeta" onchange="csMeta(this.value)"></label></div><div id="cs-gl"></div></div><div class="card hide" id="hm5"></div><div class="card" id="l5"></div><div class="card" id="f5"></div></div>
+<div id="v6" class="hide">
+ <div class="card"><div class="bar" style="margin:0 0 10px"><label>Objetivo USO % <input type="number" id="objU" value="100" min="1" max="100" onchange="render()"></label></div><div class="fbar"><label>Buscar asesor <input type="search" id="fq6" list="dl6" placeholder="Nombre del asesor" oninput="render()"></label><datalist id="dl6"></datalist><button onclick="$('fq6').value='';render()">Ver todos</button></div><div class="kg" id="ku"></div></div>
+ <div class="card" id="lu"></div>
+</div>
+</div>
+<script>
+const RO=true;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const M=[
+{k:"atend",l:"Atendidas",f:"n",o:null,dir:0,re:/atendida/i},
+{k:"tr",l:"% Transferencia",f:"p",o:.21,dir:-1,re:/transfer/i},
+{k:"r72",l:"% Rellamada 72h",f:"p",o:.21,dir:-1,re:/72/},
+{k:"r30",l:"% Rellamada 30min",f:"p",o:.07,dir:-1,re:/30/},
+{k:"r24",l:"% Rellamada 24h",f:"p",o:null,dir:-1,re:/24/},
+{k:"sc",l:"% ShortCall",f:"p",o:.01,dir:-1,re:/short/i},
+{k:"tmo",l:"TMO",f:"s",o:475,dir:-1,re:/tmo/i},
+{k:"enc",l:"Encuestas",f:"n",o:null,dir:0,re:/encuesta/i},
+{k:"nps",l:"NPS",f:"p",o:-.22,dir:1,re:/nps/i},
+{k:"sol",l:"SOL",f:"p",o:.55,dir:1,re:/\bsol|soluci/i},
+{k:"hold",l:"% Hold",f:"p",o:.18,dir:-1,re:/hold/i},
+{k:"tip",l:"% Tipificación",f:"p",o:1,dir:1,re:/tipific/i},
+{k:"csat",l:"CSAT",f:"c",o:9,dir:1,re:/csat/i},
+{k:"ip",l:"Incremento de precio (contención)",f:"p",o:.5,dir:1,re:/conten|incremento/i}];
+const MK=Object.fromEntries(M.map(m=>[m.k,m]));
+const EV=M.filter(m=>m.dir!=0);
+let IPR=[],TRw=null,TA=null,O={},R=[],T={},U=[],N=[],NT={},C=[],CT={},tab=0,ind="sol",nm="nps";
+try{O=JSON.parse(localStorage.getItem("go")||"{}")}catch(e){}
+M.forEach(m=>{if(!(m.k in O))O[m.k]=m.o});if(O.oc==null)O.oc=9;if(O.minE==null)O.minE=5;if(O.minN==null)O.minN=1;if(O.lowP==null)O.lowP=50;if(O.fz==null)O.fz=9;
+
+function pv(s){s=(s==null?"":String(s)).trim();if(!s||s=="-")return null;const hp=s.endsWith("%");s=s.replace("%","").replace(/\s/g,"");if(/^-?\d+,\d+$/.test(s))s=s.replace(",",".");const n=parseFloat(s);if(isNaN(n))return null;return hp?n/100:n}
+function parseInd(txt){
+ const L=txt.split(/\r?\n/);let h=L.findIndex(l=>/nombre/i.test(l)&&/atendida|nps|sol/i.test(l));
+ let map=null,ni=0,rows=[],tot=null;
+ if(h>=0){const hc=L[h].split("\t").map(s=>s.trim());ni=hc.findIndex(c=>/nombre/i.test(c));map={};
+  hc.forEach((c,i)=>{if(i==ni)return;const m=M.find(m=>m.re.test(c)&&!Object.values(map).includes(m.k));if(m)map[i]=m.k})}
+ L.slice(h>=0?h+1:0).forEach(l=>{
+  if(!l.trim())return;let c=l.split("\t");
+  if(!map){while(c.length&&!c[0].trim())c.shift();}
+  const n=(c[ni]||"").trim();if(!n||pv(n)!==null)return;
+  const r={n};
+  if(map)Object.entries(map).forEach(([i,k])=>r[k]=pv(c[i]));else M.forEach((m,j)=>r[m.k]=pv(c[j+1]));
+  if(/total\s+general/i.test(n))tot=r;else rows.push(r)});
+ M.filter(m=>m.f=="p").forEach(m=>{const mx=Math.max(0,...rows.map(r=>Math.abs(r[m.k]||0)));if(mx>3){rows.forEach(r=>{if(r[m.k]!=null)r[m.k]/=100});if(tot&&tot[m.k]!=null)tot[m.k]/=100}});
+ return{rows,tot}}
+function parseSimple(txt,spec,pk){
+ const L=txt.split(/\r?\n/),rows=[];let tot=null,map=null,ni=0;
+ const h=L.findIndex(l=>/nombre/i.test(l)&&Object.values(spec).some(re=>re.test(l)));
+ if(h>=0){const hc=L[h].split("\t").map(x=>x.trim());ni=hc.findIndex(c=>/nombre/i.test(c));map={};
+  hc.forEach((c,i)=>{if(i==ni)return;for(const[k,re]of Object.entries(spec)){if(!Object.values(map).includes(k)&&re.test(c)){map[i]=k;break}}})}
+ L.slice(h>=0?h+1:0).forEach(l=>{
+  if(!l.trim())return;let c=l.split("\t").map(x=>x.trim());const r={};
+  if(map){var n=c[ni]||"";Object.entries(map).forEach(([i,k])=>r[k]=pv(c[i]))}
+  else{while(c.length&&!c[0])c.shift();const j=c.findIndex(x=>x&&pv(x)===null);if(j<0)return;var n=c[j];const nums=c.slice(j+1).filter(x=>x&&pv(x)!==null).map(pv);Object.keys(spec).forEach((k,q)=>r[k]=nums[q]==null?null:nums[q])}
+  if(!n||pv(n)!==null)return;r.n=n;
+  if(/total\s+general/i.test(n))tot=r;else rows.push(r)});
+ pk.forEach(k=>{const mx=Math.max(0,...rows.map(r=>Math.abs(r[k]||0)));if(mx>3){rows.forEach(r=>{if(r[k]!=null)r[k]/=100});if(tot&&tot[k]!=null)tot[k]/=100}});
+ return{rows,tot}}
+function wavg(rows,tot,keys){const t=Object.assign({},tot||{});t.enc=t.enc!=null?t.enc:rows.reduce((a,r)=>a+(r.enc||0),0);
+ keys.forEach(k=>{if(t[k]==null){const v=rows.filter(r=>r[k]!=null&&r.enc);const w=v.reduce((a,r)=>a+r.enc,0);t[k]=w?v.reduce((a,r)=>a+r[k]*r.enc,0)/w:null}});return t}
+function parseUso(txt){const out=[];txt.split(/\r?\n/).forEach(l=>{
+ if(!l.trim()||/total\s+general/i.test(l)||(/^\s*(programa|nombre)/i.test(l)&&!/\d/.test(l)))return;
+ let tk=l.split(/\t|;/).map(s=>s.trim()).filter(Boolean);
+ if(tk.length<3){const m=l.trim().match(/^(.*?)\s+(\d+)\s+(\d+)(\s+[\d.,]+%?)?$/);tk=m?[m[1],m[2],m[3]]:tk}
+ const nums=tk.filter(t=>/^\d+$/.test(t)),names=tk.filter(t=>!/^\d+([.,]\d+)?%?$/.test(t));
+ if(nums.length>=2&&names.length){const q=+nums[0],t=+nums[1];if(t>0&&q<=t)out.push({n:names[names.length-1],q,t,p:q/t*100,g:t-q})}});return out}
+function fmt(m,v){if(v==null)return"–";return m.f=="p"?(v*100).toFixed(2)+"%":m.f=="s"?Math.round(v)+" s":m.f=="c"?v.toFixed(2):Math.round(v)}
+function st(m,v){if(v==null)return"nd";const o=O[m.k];if(m.f=="p")v=Math.round(v*1e4)/1e4;if(o==null||m.dir==0)return"na";return(m.dir<0?v<=o:v>=o)?"ok":"bad"}
+function sev(m,v){return m.dir<0?v-O[m.k]:O[m.k]-v}
+
+const TB=[["in1","INDICADORES",()=>R.length],["in3","NPS",()=>N.length],["in4","CSAT",()=>C.length],["in2","Usabilidad Visor",()=>U.length],["in5","IP",()=>IPR.length]];
+function route(txt){txt=(txt||"").trim();if(!txt){$("msg").textContent="El portapapeles está vacío.";return}
+ const id=/atendida/i.test(txt)?"in1":/q\s*uso/i.test(txt)?"in2":/csat/i.test(txt)&&!/nps/i.test(txt)?"in4":/nps/i.test(txt)?"in3":null;
+ if(!id){$("msg").textContent="No reconocí la tabla: copia también la fila de encabezados.";return}
+ $(id).value=txt;go();$("msg").textContent="Tabla "+TB.find(t=>t[0]==id)[1]+" cargada."}
+function pasteClip(){if(navigator.clipboard&&navigator.clipboard.readText)navigator.clipboard.readText().then(route).catch(()=>{$("msg").textContent="Sin permiso del portapapeles: presiona Ctrl+V (o Cmd+V) en esta página."});else $("msg").textContent="Presiona Ctrl+V (o Cmd+V) en esta página."}
+document.addEventListener("paste",e=>{if(RO)return;const t=e.target;if(t&&(t.tagName=="TEXTAREA"||t.tagName=="INPUT"))return;e.preventDefault();route(e.clipboardData.getData("text"))});
+function chips(){$("chips").innerHTML=TB.map(t=>`<span class="chip ${t[2]()?"on":""}">${t[2]()?"✓":"○"} ${t[1]}${t[2]()?" · "+t[2]()+" asesores":" · pendiente"}</span>`).join("")}
+function go(){
+ const a=parseInd($("in1").value);R=a.rows;TA=a.tot&&a.tot.atend!=null?a.tot.atend:null;TRw=a.tot||null;
+ T=a.tot||{};if(!a.tot&&R.length){M.forEach(m=>{const v=R.map(r=>r[m.k]).filter(x=>x!=null);T[m.k]=v.length?(m.k=="atend"||m.k=="enc"?v.reduce((x,y)=>x+y,0):v.reduce((x,y)=>x+y,0)/v.length):null})}
+ U=parseUso($("in2").value);
+ const pn=parseSimple($("in3").value,{nps:/nps/i,sol:/\bsol|soluci/i,enc:/enc/i},["nps","sol"]);N=pn.rows;NT=wavg(N,pn.tot,["nps","sol"]);
+ const pc=parseSimple($("in4").value,{enc:/enc/i,csat:/csat/i},[]);C=pc.rows;CT=wavg(C,pc.tot,["csat"]);const pi=parseSimple($("in5").value,{ipn:/llamad/i,ip:/conten/i},["ip"]);IPR=pi.rows;R.forEach(r=>{const x=IPR.find(z=>norm(z.n)==norm(r.n));r.ip=x?x.ip:null;r.ipn=x?x.ipn:0});{let a=0,b=0;IPR.forEach(z=>{if(z.ip!=null&&z.ipn){a+=z.ipn;b+=z.ip*z.ipn}});T.ip=a?b/a:null;T.ipn=a}
+ try{localStorage.setItem("gi",$("in1").value);localStorage.setItem("gu",$("in2").value);localStorage.setItem("gn",$("in3").value);localStorage.setItem("gc",$("in4").value)}catch(e){}
+ $("msg").textContent=(R.length?R.length+" asesores en INDICADORES":"INDICADORES vacío")+" · NPS "+N.length+" · CSAT "+C.length+" · USO "+U.length;
+ chips();render()}
+function clr(){["in1","in2","in3","in4"].forEach(i=>$(i).value="");go()}
+const TABS=["Resumen","Agentes","Semáforo","Matriz","NPS","CSAT","Usabilidad Visor","Atendidas","Tipificación","Ranking","Mi resultado"],ORDER=(typeof RO!="undefined"&&RO)?[10,0,8,4,5,6,9]:[0,10,8,4,5,6,9];
+function setTab(n){tab=n;render()}
+addEventListener("resize",()=>{if(tab==5||tab==4){clearTimeout(_rz);_rz=setTimeout(render,150)}});
+const OFX=["r24","tmo","hold","sc"];
+function selBtns(id){return EV.filter(m=>!OFX.includes(m.k)).map(m=>`<button class="${ind==m.k?"on":""}" onclick="ind='${m.k}';render()">${m.l}</button>`).join("")}
+function render(){
+ if(OFX.includes(ind))ind="sol";
+ $("tabs").innerHTML=ORDER.map(i=>`<button class="${tab==i?"on":""}" onclick="setTab(${i})">${TABS[i]}</button>`).join("");
+ for(let i=0;i<11;i++)$("v"+i).classList.toggle("hide",tab!=i);
+ const none='<div class="empty">Aún no hay datos: pega la tabla de INDICADORES arriba o carga el ejemplo.</div>';
+ // Resumen
+ $("kg").innerHTML=R.length?`<div class="k" style="cursor:default"><span>Atendidas</span><b>${fmt(MK.atend,T.atend)}</b><small>${R.length} asesores</small></div><div class="k" style="cursor:default"><span>Encuestas</span><b>${fmt(MK.enc,T.enc)}</b></div>`+
+  EV.map(m=>{const fromN=m.k=="nps"||m.k=="sol",noN=fromN&&!N.length,tv=fromN?(!noN&&NT[m.k]!=null?NT[m.k]:null):T[m.k],src=fromN?N.filter(r=>r.enc==null||r.enc>=O.minN):R,s=st(m,tv),n=src.filter(r=>st(m,r[m.k])=="bad").length,t=src.filter(r=>r[m.k]!=null).length;
+   return`<div class="k ${s}" style="cursor:default"><span>${m.l}</span><b>${fmt(m,tv)}</b><small>Objetivo ${O[m.k]==null?"–":fmt(m,O[m.k])} · ${noN?"carga la tabla NPS":n+" de "+t+" fuera"}</small></div>`}).join(""):none;
+ $("s1").innerHTML=selBtns();agentes();ranking();mine();
+ // Matriz
+ nps();csat();uso();atend();tipif();foc()}
+const norm=s=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+const IC={ok:"✓",near:"⚠",far:"✗"},CL={ok:"ok",near:"wa",far:"bad"};
+const HELP={tr:["Porcentaje de tus llamadas que transfieres a otra área.","Resuelve en la primera llamada y confirma el área correcta antes de transferir."],
+r72:["Clientes que vuelven a llamar por el mismo tema dentro de las 72 horas.","Verifica que el cliente entendió y que el caso quede realmente resuelto."],
+r30:["Clientes que vuelven a llamar en menos de 30 minutos, por una llamada cortada o un tema sin cerrar.","Cierra cada llamada confirmando que no queda ninguna duda pendiente."],
+nps:["Cuántos clientes te recomendarían: promotores menos detractores.","Escucha con atención, muestra empatía y despídete cordialmente."],
+sol:["Porcentaje de clientes que indican que su problema fue solucionado.","Explica con claridad qué hiciste y qué sigue, y confirma que quedó resuelto."]};
+function lv(m,v){const o=O[m.k];if(v==null)return"nd";if(o==null||!m.dir)return"na";if(st(m,v)=="ok")return"ok";const tol=.15*(m.f=="p"?Math.max(Math.abs(o),.1):Math.abs(o));return Math.abs(v-o)<=tol?"near":"far"}
+function gp(m,v){const o=O[m.k];return m.dir<0?v-o:o-v}
+function fg(m,g){return m.f=="p"?(g*100).toFixed(2)+" pts":m.f=="s"?Math.round(g)+" s":g.toFixed(2)}
+const hp=k=>HELP[k]?` <span class="hq" title="${esc(HELP[k][0])}">?</span>`:"";
+let me="";try{me=localStorage.getItem("gme")||"";const h=decodeURIComponent(((location.hash||"")+"&"+(location.search||"")).match(/asesor=([^&]+)/)?.[1]||"");if(h)me=h}catch(e){}
+const MINS=5,CUT_I=(document.body.textContent.match(/Indicadores al (\d\d\/\d\d)/)||[])[1]||"",CUT_N=(document.body.textContent.match(/NPS (?:al )?(\d\d\/\d\d)/)||[])[1]||"";
+function lowS(r,k){if(k!="nps"&&k!="sol")return false;const x=N.find(a=>norm(a.n)==norm(r.n)),n=x&&x.enc!=null?x.enc:(r.enc!=null?r.enc:null);return gv(r,k)!=null&&(n==null||n<MINS)}
+function mine(){
+ const sel=$("meSel"),key=R.map(r=>r.n).join("|");
+ if(sel.dataset.k!==key){sel.dataset.k=key;sel.innerHTML='<option value="">Elige tu nombre</option>'+R.map(r=>`<option value="${esc(r.n)}">${esc(r.n)}</option>`).join("")}
+ const r=R.find(x=>norm(x.n)==norm(me));sel.value=r?r.n:"";
+ if(!R.length){$("mi").innerHTML=NONE;return}
+ if(!r){$("mi").innerHTML=me&&PER!="acum"?'<div class="empty">'+esc(me)+' no tiene llamadas registradas en este periodo. Cambia a Acumulado o a otra semana.</div>':'<div class="empty">Elige tu nombre en la lista para ver tu resultado.</div>';return}
+ let okK=0,Y=0,lowN=0,foc=null;
+ const cs=KEY.map(k=>{const m=MK[k],v=gv(r,k),sv=k=="nps"||k=="sol",x=sv?N.find(a=>norm(a.n)==norm(r.n)):null,n=x&&x.enc!=null?x.enc:(r.enc!=null?r.enc:null),low=lowS(r,k);
+  let L=lv(m,v);if(low){L="low";lowN++}else if(L!="nd"&&L!="na")Y++;
+  const c=CL[L]||"";if(L=="ok")okK++;
+  const g=L=="near"||L=="far"?gp(m,v):null;
+  if(g!=null){const sc=g/(m.f=="p"?Math.max(Math.abs(O[k]),.1):Math.abs(O[k]));if(!foc||sc>foc.sc)foc={m,v,g,sc}}
+  const cd=sv?CUT_N:(k=="r72"||k=="r30"||k=="r24")?((document.getElementById("fechas").textContent.match(/Rellamadas (?:al )?(\d\d\/\d\d)/)||[])[1]||CUT_I):CUT_I,cut=cd?`<small style="display:block;color:var(--mu);font-size:11px;margin-top:2px">Dato al ${cd}</small>`:"";
+  const val=L=="nd"?`<b style="display:block;font-size:28px;color:var(--mu)">–</b><small style="color:var(--mu)">Sin encuestas en el período</small>`
+   :low?`<b style="display:block;font-size:28px;color:var(--mu)">${fmt(m,v)}</b><small style="color:var(--mu)">Solo ${n==null?"pocas":n} encuesta${n==1?"":"s"}: todavía no es concluyente y no cuenta en tu resultado.</small>`
+   :`<b class="${c}" style="display:block;font-size:28px">${fmt(m,v)}</b><small style="color:var(--mu)">Objetivo ${m.dir<0?"≤":"≥"} ${fmt(m,O[k])}${g!=null?" · faltan "+fg(m,g):L=="ok"?" · ¡cumples!":""}</small>`;
+  return`<div class="agc ${c||"ok"}" ${c?"":'style="border-top-color:var(--bd)"'}><div class="agh"><b class="${c}"${c?"":' style="color:var(--mu)"'}>${IC[L]||"–"} ${m.l}</b></div>${val}${cut}</div>`}).join("");
+ const tg=Math.max(1,Math.ceil(Y*.6)),c=Y==0?"":okK>=tg?"ok":okK==tg-1?"wa":"bad",
+  msg=Y==0?"Todavía no hay datos suficientes para evaluar tus indicadores.":okK>=tg?"¡Muy bien! Sigue así.":okK==tg-1?`Te falta 1 indicador para llegar al verde (meta: ${tg} de ${Y}).`:`Hay oportunidad de mejora; empieza por tu prioridad. Para llegar al verde necesitas cumplir ${tg} de ${Y}.`;
+ const fo=foc?`<div class="card" style="border-left:6px solid var(--${c||"bd"})"><b>🎯 Tu prioridad: ${foc.m.l}</b><div style="font-size:13px;margin-top:4px">Estás en ${fmt(foc.m,foc.v)} y el objetivo es ${foc.m.dir<0?"máximo ":"mínimo "}${fmt(foc.m,O[foc.m.k])} (faltan ${fg(foc.m,foc.g)}). ${HELP[foc.m.k][1]}</div></div>`:Y>0&&okK==Y?`<div class="card" style="border-left:6px solid var(--ok)"><b>🎉 Cumples los ${Y} indicadores clave</b></div>`:"";
+ $("mi").innerHTML=`<div class="card" style="border-top:6px solid var(--${c||"bd"})"><div style="font-size:12px;color:var(--mu)">${esc(r.n)}</div><b class="${c}" style="display:block;font-size:22px">Cumples ${okK} de ${Y} indicadores clave</b><div style="font-size:13px">${msg}</div>${lowN?`<div style="font-size:12px;color:var(--mu);margin-top:4px">${lowN} indicador${lowN>1?"es":""} con pocas encuestas ${lowN>1?"no cuentan":"no cuenta"} todavía.</div>`:""}</div>${fo}<div class="agg">${cs}</div><div class="sub" style="margin:14px 0 8px"><b>Detalle de todos mis indicadores</b></div><div class="agg agd">${agOne(r).html}</div>`}
+const KEY=["tr","r72","r30","nps","sol"];
+function agOne(r){
+ const cols=[MK.atend,MK.enc].concat(EV),g=k=>gv(r,k);
+ let okK=0,Y=0,lowN=0;
+ const rows=cols.map(m=>{const v=g(m.k),lw=lowS(r,m.k),s=lw?"low":(m.dir?st(m,v):"na");if(KEY.includes(m.k)){if(lw)lowN++;else if(v!=null)Y++;if(s=="ok")okK++}
+  const ob=m.dir&&O[m.k]!=null?`<small>obj. ${m.dir<0?"≤":"≥"} ${fmt(m,O[m.k])}</small>`:"";
+  return`<div class="agr"><span>${KEY.includes(m.k)?"★ ":""}${m.l}</span><span><b class="${s=="ok"||s=="bad"?s:""}"${s=="low"?' style="opacity:.5" title="Pocas encuestas: aún no es concluyente"':""}>${fmt(m,v)}</b>${ob}</span></div>`}).join("");
+ const tg=Math.max(1,Math.ceil(Y*.6)),c=Y==0?"":okK>=tg?"ok":okK==tg-1?"wa":"bad";
+ return{n:r.n,okK,html:`<div class="agc ${c||"ok"}"><div class="agh"><b class="${c}" title="${esc(r.n)}">${esc(r.n)}</b><small>${okK} de ${Y} indicadores clave en objetivo (★)${lowN?" · "+lowN+" con pocas encuestas":""}</small></div>${rows}</div>`}}
+function agentes(){
+ const dl=$("agl"),key=R.map(r=>r.n).join("|");
+ if(dl.dataset.k!==key){dl.dataset.k=key;dl.innerHTML=R.map(r=>`<option value="${esc(r.n)}">`).join("")}
+ if(!R.length){$("ag").innerHTML=NONE;$("agn").textContent="";return}
+ const q=norm($("agq").value);
+ const cards=R.filter(r=>!q||norm(r.n).includes(q)).map(agOne);
+ cards.sort((a,b)=>a.okK-b.okK||a.n.localeCompare(b.n));
+ $("agn").textContent=cards.length+" de "+R.length+" asesores";
+ $("ag").innerHTML=cards.map(c=>c.html).join("")||'<div class="empty">Ningún asesor coincide con la búsqueda.</div>'}
+function gv(r,k){if(k=="nps"||k=="sol"){const x=N.find(a=>norm(a.n)==norm(r.n));if(x&&x[k]!=null)return x[k]}else if(k=="csat"){const y=C.find(a=>norm(a.n)==norm(r.n));if(y&&y.csat!=null)return y.csat}return r[k]}
+const sm=a=>a.reduce((s,x)=>s+x.pos,0);
+function topCalc(){
+ const acc={};
+ EV.filter(m=>!OFX.includes(m.k)).forEach(m=>{const k=m.k,mn=k=="csat"?O.minE:O.minN,src=k=="nps"||k=="sol"?N:k=="csat"?C:null;
+  R.map(r=>{const x=src&&src.find(z=>norm(z.n)==norm(r.n));return{n:r.n,v:gv(r,k),e:x&&x.enc!=null?x.enc:null}}).filter(x=>x.v!=null&&!(x.e!=null&&x.e<mn)).sort((a,b)=>m.dir<0?a.v-b.v:b.v-a.v).slice(0,3).forEach((x,i)=>{(acc[x.n]=acc[x.n]||[]).push({m,pos:i+1,v:x.v})})});
+ return Object.entries(acc).sort((a,b)=>b[1].length-a[1].length||sm(a[1])-sm(b[1])||a[0].localeCompare(b[0]))}
+const MESES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+try{$("awM").value=new Date().toISOString().slice(0,7)}catch(e){}
+function star(d,cx,cy,r,col){d.setFillColor(col[0],col[1],col[2]);const p=[];for(let i=0;i<10;i++){const rr=i%2?r*.42:r,an=-Math.PI/2+i*Math.PI/5;p.push([cx+rr*Math.cos(an),cy+rr*Math.sin(an)])}d.lines(p.slice(1).map((q,i)=>[q[0]-p[i][0],q[1]-p[i][1]]),p[0][0],p[0][1],[1,1],"F",true)}
+async function awardPdf(){
+ const say=t=>{$("awMsg").textContent=t};
+ if(!R.length){say("Primero carga los datos del equipo.");return}
+ const rp=topCalc();
+ if(!rp.length||rp[0][1].length<2){say("Ningún asesor se repite en el top 3 de 2 o más indicadores.");return}
+ if(!(window.jspdf&&window.jspdf.jsPDF)){say("No se pudo cargar el generador de PDF.");return}
+ let dl=null;try{dl=window.claude?await claude.use("downloads"):null}catch(e){}
+ if(!dl){say("La descarga no está disponible en esta vista.");return}
+ const [name,a]=rp[0],tie=rp[1]&&rp[1][1].length==a.length&&sm(rp[1][1])==sm(a);
+ const pm=($("awM").value||"").split("-"),now=new Date(),y=+pm[0]||now.getFullYear(),mo=(+pm[1]||now.getMonth()+1)-1,mes=MESES[mo]+" "+y;
+ const d=new window.jspdf.jsPDF({orientation:"landscape",unit:"mm",format:"a4"}),W=297,cx=W/2,NAVY=[20,33,61],BLUE=[59,111,212],GOLD=[212,160,23],DG=[150,105,8],GR=[90,98,110];
+ d.setDrawColor(...GOLD);d.setLineWidth(2.2);d.rect(8,8,281,194);d.setDrawColor(...NAVY);d.setLineWidth(.5);d.rect(12,12,273,186);
+ d.setFillColor(...NAVY);d.rect(12,12,273,9,"F");
+ d.setTextColor(...NAVY);d.setFont("helvetica","bold");d.setFontSize(34);d.text("RECONOCIMIENTO",cx,40,{align:"center"});
+ d.setFontSize(15);d.setTextColor(...DG);d.text("Asesor destacado de "+mes,cx,50,{align:"center"});
+ for(let i=0;i<5;i++)star(d,cx-24+i*12,59,4.2,GOLD);
+ d.setFont("helvetica","normal");d.setFontSize(12);d.setTextColor(...GR);d.text("Se otorga con orgullo a",cx,73,{align:"center"});
+ let fs=32;d.setFont("helvetica","bold");d.setFontSize(fs);while(d.getTextWidth(name)>240&&fs>14){fs-=2;d.setFontSize(fs)}
+ d.setTextColor(...BLUE);d.text(name,cx,88,{align:"center"});d.setDrawColor(...GOLD);d.setLineWidth(.8);d.line(cx-70,92,cx+70,92);
+ const n=a.length,txt="En "+mes+", tu constancia y tu compromiso te llevaron al top 3 del equipo en "+n+(n>1?" indicadores":" indicador")+". Cada llamada que atendiste con dedicación se refleja en estos resultados y en la confianza de nuestros clientes. Gracias por demostrar que el esfuerzo diario hace la diferencia. ¡Felicitaciones y sigue adelante: lo mejor aún está por venir!";
+ d.setFont("helvetica","normal");d.setFontSize(12);d.setTextColor(...NAVY);d.splitTextToSize(txt,215).forEach((l,i)=>d.text(l,cx,104+i*6.2,{align:"center"}));
+ d.setFont("helvetica","bold");d.setFontSize(12);d.setTextColor(...DG);d.text("TUS LOGROS DEL MES: TOP 3 EN "+n+(n>1?" INDICADORES":" INDICADOR"),cx,140,{align:"center"});
+ const cw=Math.min(46,250/n),x0=cx-n*cw/2+cw/2,MC=[GOLD,[150,157,166],[176,112,58]];
+ a.forEach((x,i)=>{const px=x0+i*cw,c=MC[x.pos-1];d.setFillColor(...c);d.circle(px,153,6.5,"F");d.setTextColor(255,255,255);d.setFont("helvetica","bold");d.setFontSize(13);d.text(String(x.pos),px,157.3,{align:"center"});
+  d.setTextColor(...NAVY);d.setFontSize(9);d.splitTextToSize(x.m.l,cw-3).slice(0,2).forEach((l,j)=>d.text(l,px,165+j*4.2,{align:"center"}));
+  d.setFontSize(11);d.setTextColor(...BLUE);d.text(fmt(x.m,x.v),px,177,{align:"center"})});
+ d.setDrawColor(...NAVY);d.setLineWidth(.4);d.line(cx-45,188,cx+45,188);d.setFont("helvetica","normal");d.setFontSize(10);d.setTextColor(...GR);d.text("Firma del supervisor",cx,193.5,{align:"center"});
+ const fn="Reconocimiento_"+name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9]+/g,"_")+"_"+MESES[mo]+"_"+y+".pdf";
+ try{await dl.save({filename:fn,data:d.output("blob")});say("PDF generado para "+name+" ("+n+" indicadores)."+(tie?" Atención: hay empate con "+rp[1][0]+".":""))}catch(e){say(e&&e.code=="declined"?"Descarga cancelada.":"No se pudo guardar el PDF.")}
+}
+let rk="best";
+function ranking(){
+ $("rko").innerHTML=[["best","Destacados primero"],["worst","Oportunidades primero"]].map(([k,l])=>`<button class="${rk==k?"on":""}" onclick="rk='${k}';render()">${l}</button>`).join("");
+ if(!R.length){$("k9").innerHTML="";$("l1").innerHTML=NONE;return}
+ const m=MK[ind],ob=O[ind],mn=ind=="csat"?O.minE:O.minN,src=ind=="nps"||ind=="sol"?N:ind=="csat"?C:null;
+ const encOf=r=>{if(!src)return null;const x=src.find(z=>norm(z.n)==norm(r.n));return x&&x.enc!=null?x.enc:null};
+ const rows=R.map(r=>({n:r.n,v:gv(r,ind),e:encOf(r)})).filter(x=>x.v!=null);
+ const low=x=>x.e!=null&&x.e<mn;
+ const srt=(a,b)=>m.dir<0?a.v-b.v:b.v-a.v;
+ const el=rows.filter(x=>!low(x)).sort(srt),lw=rows.filter(low).sort(srt);
+ el.forEach((x,i)=>{x.pos=i+1;x.top=i<3});
+ if(!el.length){$("k9").innerHTML="";$("l1").innerHTML='<div class="empty">No hay asesores con datos suficientes para este indicador.</div>';return}
+ const bad=el.filter(x=>st(m,x.v)=="bad").length,b=el[0],w=el[el.length-1];
+ $("k9").innerHTML=kc("Mejor",fmt(m,b.v),esc(b.n),"ok")+kc("Más bajo",fmt(m,w.v),esc(w.n),"bad")+kc("Por mejorar",bad+" de "+el.length,"asesores"+(lw.length?" · "+lw.length+" con muestra baja":""),bad?"bad":"ok")+kc("Objetivo",ob==null?"–":fmt(m,ob),m.dir<0?"máximo":"mínimo");
+ const all=rows.map(x=>x.v).concat(ob==null?[]:[ob]),lo=Math.min(0,...all),hi=Math.max(0.0001,...all),P=v=>(v-lo)/(hi-lo)*100;
+ const only=$("onlyBad").checked,ord=(rk=="best"?el:el.slice().reverse()).filter(x=>!only||st(m,x.v)=="bad").concat(only?[]:lw);
+ const row=x=>{const lo_=low(x),s=lo_?"nd":st(m,x.v),md=["🥇","🥈","🥉"][x.pos-1];
+  return`<div class="rkr ${x.top?"top":""}" style="${lo_?"opacity:.55":""}"><div class="nm" title="${esc(x.n)}"><span class="pos">${lo_?"–":x.top?md:x.pos+"º"}</span>${esc(x.n)}${x.e!=null?` <span style="color:var(--mu);font-size:11px;font-weight:400">· n=${x.e}${lo_?" · muestra baja":""}</span>`:""}</div><div class="tr"><i style="left:${Math.min(P(0),P(x.v))}%;width:${Math.abs(P(x.v)-P(0))}%;background:var(--${s=="bad"?"bad":s=="ok"?"ok":"wa"})"></i>${ob==null?"":`<u style="left:${P(ob)}%"></u>`}</div><div class="nv ${s}">${fmt(m,x.v)}</div></div>`};
+ $("l1").innerHTML=`<div class="sub" style="margin-bottom:6px">${m.l} · 🥇🥈🥉 = 3 mejores · línea negra = objetivo ${ob==null?"(sin objetivo)":(m.dir<0?"máximo ":"mínimo ")+fmt(m,ob)}${lw.length?" · en gris, muestra baja (no entra al top)":""}</div>`+(ord.map(row).join("")||'<div class="empty">Ningún asesor por mejorar.</div>')}
+const fq=id=>norm($(id).value),mt=(q,n)=>!q||norm(n).includes(q);
+function dlf(id,arr){const e=$(id),k=arr.map(r=>r.n).join("|");if(e.dataset.k!==k){e.dataset.k=k;e.innerHTML=arr.map(r=>`<option value="${esc(r.n)}">`).join("")}}
+
+const NONE='<div class="empty">Aún no hay datos: pega la tabla arriba o carga el ejemplo.</div>';
+function kc(l,v,sub,c){return`<div class="k ${c||""}" style="cursor:default"><span>${l}</span><b>${v}</b><small>${sub||""}</small></div>`}
+function lst(rows,k,fm,obj,dir,mi,zero,fl){const F=fl||(()=>1);
+ const bad=v=>obj!=null&&(dir>0?v<obj:v>obj),has=rows.filter(r=>r[k]!=null);
+ const ev=has.filter(r=>r.enc==null||r.enc>=mi),lw=has.filter(r=>r.enc!=null&&r.enc<mi),srt=(a,b)=>dir>0?a[k]-b[k]:b[k]-a[k];
+ ev.sort(srt);lw.sort(srt);
+ const all=has.map(r=>r[k]).concat(obj==null?[]:[obj]);let lo=zero?Math.min(0,...all):Math.min(...all)-.4;const hi=Math.max(...all),P=v=>(v-lo)/((hi-lo)||1)*100,b0=zero?P(0):0;
+ const row=(r,low)=>{const v=r[k],c=low?"nd":obj==null?"na":bad(v)?"bad":"ok";
+  return`<div class="row" style="${low?"opacity:.55":""}"><div class="nm" title="${esc(r.n)}">${esc(r.n)} <span style="color:var(--mu);font-size:11px">· n=${r.enc==null?"–":r.enc}${low?" · muestra baja":""}</span></div><div class="nv ${c}">${fm(v)}</div>${SPK?SPK(r):""}<div class="tr"><i style="left:${Math.min(b0,P(v))}%;width:${Math.abs(P(v)-b0)}%;background:var(--${low?"bd":c=="bad"?"bad":"ok"})"></i>${obj==null?"":`<u style="left:${P(obj)}%"></u>`}</div></div>`};
+ return{html:ev.filter(F).map(r=>row(r,0)).join("")+lw.filter(F).map(r=>row(r,1)).join(""),nbad:ev.filter(r=>bad(r[k])).length,nev:ev.length,nlow:lw.length}}
+
+const DNPS="";
+let ND={v:"a"},NDX=null;
+const npPct=x=>{if(x==null)return null;x=String(x).trim().replace("%","").replace(",",".");if(x==="")return null;const n=parseFloat(x);return isNaN(n)?null:n/100};
+const npTs=d=>{const[a,b,c]=d.split("/").map(Number);return new Date(c,b-1,a).getTime()};
+function parseNpsDaily(txt){
+ const L=String(txt||"").split(/\r?\n/).filter(l=>l.trim()),E={days:[],rows:[],team:null,byName:{},missing:[]};
+ if(L.length<2)return E;
+ const H=L[0].split("\t").map(s=>s.trim().toLowerCase()),ix=re=>H.findIndex(h=>re.test(h)),iF=ix(/fecha/),iN=ix(/nombre/),iJ=ix(/jefe/),iP=ix(/nps/),iS=ix(/sol/),iC=ix(/enc/);
+ if(iF<0||iN<0||iP<0||iS<0||iC<0)return E;
+ let cur=null;const rec=[];
+ for(let k=1;k<L.length;k++){const c=L[k].split("\t").map(s=>s.trim());
+  if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(c[iF]))cur=c[iF];
+  const nm=c[iN],n=csNum(c[iC]);if(!nm||!cur||!(n>0))continue;
+  rec.push({d:cur,n:nm,jefe:iJ>=0?c[iJ]:"",c:n,nps:npPct(c[iP]),sol:npPct(c[iS])})}
+ const days=[...new Set(rec.map(r=>r.d))].sort((a,b)=>npTs(a)-npTs(b)),di={};days.forEach((d,i)=>di[d]=i);
+ const add=(cell,r)=>{const t=cell||{n:0,nps:0,sol:0,_p:0,_s:0};t.n+=r.c;t._p+=(r.nps||0)*r.c;t._s+=(r.sol||0)*r.c;t.nps=t._p/t.n;t.sol=t._s/t.n;return t};
+ const byName={},rows=[],team={n:"Total general",d:days.map(()=>null)};
+ rec.forEach(r=>{let o=byName[r.n];if(!o){o={n:r.n,jefe:r.jefe,d:days.map(()=>null)};byName[r.n]=o;rows.push(o)}
+  o.d[di[r.d]]=add(o.d[di[r.d]],r);team.d[di[r.d]]=add(team.d[di[r.d]],r)});
+ const missing=[];if(days.length){for(let t=npTs(days[0]);t<=npTs(days[days.length-1]);t+=864e5){const x=new Date(t),s=String(x.getDate()).padStart(2,"0")+"/"+String(x.getMonth()+1).padStart(2,"0")+"/"+x.getFullYear();if(!(s in di))missing.push(s.slice(0,5))}}
+ return{days,rows,team,byName,missing}}
+const npsDaily=()=>NDX||(NDX=parseNpsDaily(DNPS));
+function npView(v){ND.v=v;render()}
+function npGlobal(D,k,ob){const el=$("np-gl"),m=MK[k],days=D.days,t=D.team.d,n=days.length;
+ const W=Math.max(300,el.clientWidth||640),H=214,Lm=44,Rm=12,top=18,ph=100,by=top+ph+12,bh=34,sw=(W-Lm-Rm)/n,X=i=>Lm+sw*(i+.5);
+ const vs=t.filter(Boolean).map(c=>c[k]);if(!vs.length){el.innerHTML="";return}
+ const pad=(Math.max(ob,...vs)-Math.min(ob,...vs))*.12||.05,bl=k=="nps"?-1:0,lo=Math.max(bl,Math.min(ob,...vs)-pad),hi=Math.min(1,Math.max(ob,...vs)+pad),Y=v=>top+ph-(v-lo)/(hi-lo)*ph,mx=Math.max(1,...t.map(c=>c?c.n:0)),big=sw>=56,mxv=Math.max(...vs),mnv=Math.min(...vs),f=v=>fmt(m,v);
+ let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Evolución diaria de ${m.l} del equipo" style="display:block">`;
+ days.forEach((d,i)=>{if("SD".includes(csWd(d)))g+=`<rect x="${Lm+sw*i}" y="${top-6}" width="${sw}" height="${ph+bh+22}" fill="var(--bd)" opacity=".35"/>`});
+ [lo,(lo+hi)/2,hi].forEach(v=>{g+=`<line x1="${Lm}" x2="${W-Rm}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="var(--bd)"/><text x="${Lm-5}" y="${(Y(v)+3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--mu)">${Math.round(v*100)}%</text>`});
+ g+=`<line x1="${Lm}" x2="${W-Rm}" y1="${Y(ob).toFixed(1)}" y2="${Y(ob).toFixed(1)}" stroke="var(--tx)" stroke-dasharray="5 4" opacity=".6"/><text x="${W-Rm}" y="${(Y(ob)-4).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--tx)" opacity=".75">Objetivo ${f(ob)}</text>`;
+ const pts=t.map((c,i)=>c?[X(i),Y(c[k]),c,i]:null).filter(Boolean);
+ g+=`<polyline points="${pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" ")}" fill="none" stroke="var(--ac)" stroke-width="2.2" stroke-linejoin="round"/>`;
+ const imx=pts.findIndex(p=>p[2][k]==mxv),imn=pts.findIndex(p=>p[2][k]==mnv);
+ pts.forEach((p,pi)=>{const c=p[2],lab=big||pi==imx||pi==imn;
+  g+=`<g><title>${days[p[3]].slice(0,5)}: ${m.l} ${f(c[k])} · ${c.n} encuesta${c.n==1?"":"s"}</title><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="var(--${c[k]>=ob?"ok":"bad"})" stroke="var(--card)" stroke-width="1.5"/>${lab?`<text x="${p[0].toFixed(1)}" y="${(p[1]-9).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--tx)">${f(c[k])}</text>`:""}</g>`});
+ t.forEach((c,i)=>{if(!c)return;const h=Math.max(2,c.n/mx*bh);g+=`<rect x="${(X(i)-sw*.28).toFixed(1)}" y="${(by+bh-h).toFixed(1)}" width="${(sw*.56).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="var(--ac)" opacity=".35"><title>${c.n} encuesta${c.n==1?"":"s"}</title></rect>`;if(sw>=26)g+=`<text x="${X(i).toFixed(1)}" y="${(by+bh-h-3).toFixed(1)}" text-anchor="middle" font-size="9.5" fill="var(--mu)">${c.n}</text>`});
+ const stp=sw<34?2:1;days.forEach((d,i)=>{if(i%stp==0)g+=`<text x="${X(i).toFixed(1)}" y="${by+bh+14}" text-anchor="middle" font-size="10" fill="var(--mu)">${d.slice(0,5)}</text>`});
+ g+=`</svg>`;
+ const c5=days.map((d,i)=>({d,c:t[i]})).filter(x=>x.c&&x.c.n>=5).sort((a,b)=>b.c[k]-a.c[k]),tot=t.reduce((a,c)=>a+(c?c.n:0),0);
+ const ins=c5.length>1?`Mejor día: <b>${c5[0].d.slice(0,5)}</b> (${f(c5[0].c[k])} · ${c5[0].c.n} enc.) · Día más bajo: <b>${c5[c5.length-1].d.slice(0,5)}</b> (${f(c5[c5.length-1].c[k])} · ${c5[c5.length-1].c.n} enc.) · se comparan solo días con 5 o más encuestas · `:"";
+ el.innerHTML=`<div class="sub" style="margin:0 0 2px">${m.l} del equipo por día · punto verde cumple el objetivo, rojo bajo el objetivo · barras = encuestas del día · franja gris = fin de semana</div>${g}<div class="cs-in">${ins}${n} días con encuestas · ${tot} encuestas${D.missing.length?" · sin encuestas: "+D.missing.join(", "):""}</div>`}
+function npHeat(D,q,k,ob){const m=MK[k],f=v=>fmt(m,v),rows=D.rows.filter(r=>mt(q,r.n));
+ const acc=r=>{const x=N.find(a=>a.n==r.n);if(x&&x[k]!=null)return{v:x[k],n:x.enc!=null?x.enc:null};let n=0,t=0;r.d.forEach(c=>{if(c){n+=c.n;t+=c[k]*c.n}});return{v:n?t/n:null,n}};
+ rows.forEach(r=>r.a=acc(r));rows.sort((a,b)=>(a.a.v==null)-(b.a.v==null)||a.a.v-b.a.v);
+ if(!rows.length)return'<div class="empty">Ningún asesor coincide con la búsqueda.</div>';
+ const cls=v=>v>=ob?"ok":"bad",cell=c=>c&&c[k]!=null?`<td class="${cls(c[k])}" title="${f(c[k])} · ${c.n} encuesta${c.n==1?"":"s"}">${f(c[k])}<small>(${c.n})</small></td>`:'<td class="nd">–</td>',ac=a=>a.v==null?'<td class="nd">–</td>':`<td class="${cls(a.v)} ac">${f(a.v)}${a.n!=null?`<small>(${a.n})</small>`:""}</td>`;
+ let h=`<div class="sub" style="margin:0 0 6px">Mapa de calor · ${m.l} de cada asesor por día, con el número de encuestas entre paréntesis · de menor a mayor ${m.l} acumulado</div><div class="hm"><table><thead><tr><th>Asesor</th>`+D.days.map(d=>{const w=csWd(d);return`<th class="${"SD".includes(w)?"we":""}">${d.slice(0,5)}<small>${w}</small></th>`}).join("")+`<th>Acum.<small>mes</small></th></tr></thead><tbody>`;
+ rows.forEach(r=>{h+=`<tr><td title="${esc(r.n)}">${esc(r.n)}</td>${r.d.map(cell).join("")}${ac(r.a)}</tr>`});
+ h+=`<tr class="eq"><td>Equipo</td>${D.team.d.map(cell).join("")}${ac({v:NT[k]!=null?NT[k]:null,n:NT.enc!=null?Math.round(NT.enc):null})}</tr></tbody></table></div>`;
+ return h+`<div class="hl"><span><i style="background:color-mix(in srgb,var(--ok) 24%,var(--card))"></i>cumple el objetivo (≥ ${f(ob)})</span><span><i style="background:color-mix(in srgb,var(--bad) 22%,var(--card))"></i>bajo el objetivo (< ${f(ob)})</span><span>– sin encuestas ese día</span><span>L M X J V S D = día de la semana</span></div>`}
+function npRender(){const D=npsDaily(),has=D.days.length>0;$("cd4").classList.toggle("hide",!has);
+ if(!has){$("hm4").classList.add("hide");$("l4").classList.remove("hide");return}
+ const k=nm,ob=O[k];$("nvA").classList.toggle("on",ND.v=="a");$("nvH").classList.toggle("on",ND.v=="h");
+ npGlobal(D,k,ob);const hm=ND.v=="h";$("hm4").classList.toggle("hide",!hm);$("l4").classList.toggle("hide",hm);
+ if(hm)$("hm4").innerHTML=npHeat(D,fq("fq4"),k,ob)}
+const MOT={
+ nps:{ok:["¡Tu equipo está superando el objetivo de NPS! Cada cliente que te recomienda es fruto de una buena atención.","Cada llamada bien atendida suma. ¡Gracias por cuidar la experiencia de cada cliente!","Un cliente que te recomienda vale más que cualquier minuto de llamada. ¡Sigan así!","La empatía se nota en la voz: lo que haces llamada a llamada se refleja en estos resultados."],
+  low:["Cada llamada es una nueva oportunidad: escucha con atención y despídete con una sonrisa que se note en la voz.","Un pequeño gesto cambia una experiencia: llama al cliente por su nombre y confirma que todo quedó claro.","Los resultados se construyen llamada a llamada. Hoy puedes ser la razón por la que un cliente nos recomiende.","No se trata solo de la nota, se trata de la experiencia: empatía, claridad y soluciones.","No controlas la nota, pero sí el trato: una buena conversación siempre deja huella."]},
+ sol:{ok:["¡Excelente! Tus clientes sienten que su consulta quedó resuelta, y eso es lo que más valoran.","Resolver a la primera ahorra tiempo al cliente y a ti. ¡Buen trabajo!","Cada consulta bien resuelta es una llamada menos que se repite. ¡Gracias por tu cuidado!"],
+  low:["Antes de cerrar, pregunta: «¿Quedó resuelta tu consulta?». Un minuto más puede evitar una nueva llamada.","Resolver a la primera es el mejor regalo para el cliente: confirma que entendió y que no le queda ninguna duda.","Cada consulta bien resuelta cuenta. Paso a paso, el SOL sube.","Si algo queda pendiente, explícale al cliente qué sigue y cuándo: la claridad también resuelve."]}};
+const MOTC=["Cada encuesta cuenta: invita al cliente a responder al cerrar la llamada. Su opinión nos ayuda a mejorar.","Menciónalo con naturalidad: «Al finalizar recibirás una breve encuesta; tu opinión es muy importante para nosotros».","Invita a participar, no a poner una nota: lo que buscamos es la opinión sincera del cliente.","Más encuestas hacen tu resultado más justo: con pocas respuestas, un solo caso lo mueve todo.","Un cliente que responde nos cuenta qué hacemos bien y qué podemos mejorar. ¡Anímalo a hacerlo!","Despídete recordando la encuesta: una frase de 5 segundos puede marcar la diferencia.","Si el cliente quedó conforme, dale la oportunidad de contarlo: recuérdale la encuesta al despedirte."];
+const MOTI={n:0,c:0};
+function motNext(k){MOTI[k]++;render()}
+function motBox(id,k,list,tone,title,extra,off){const i=(new Date().getDate()+MOTI[k]+(off||0))%list.length;
+ $(id).innerHTML=`<div class="card" style="border-left:6px solid var(--${tone})"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap"><b>${title}</b><button onclick="motNext('${k}')" style="font-size:12px;padding:3px 10px">Otra frase ↻</button></div><div style="font-size:14px;margin-top:6px">${list[i]}</div>${extra?`<div style="font-size:12px;color:var(--mu);margin-top:6px">${extra}</div>`:""}</div>`}
+function nps(){dlf("dl4",N);npRender();
+ $("s4").innerHTML=["nps","sol"].map(k=>`<button class="${nm==k?"on":""}" onclick="nm='${k}';render()">${k.toUpperCase()}</button>`).join("");
+ if(!N.length){$("k4").innerHTML="";$("mot4").innerHTML="";$("l4").innerHTML=NONE;return}
+ const mi=O.minN,m=MK[nm],l=lst(N,nm,v=>fmt(m,v),O[nm],1,mi,true);
+ {const tv=NT[nm],good=tv!=null&&st(m,tv)=="ok";motBox("mot4","n",MOT[nm][good?"ok":"low"],good?"ok":"ac","💬 Para el equipo",tv!=null?`${m.l} del equipo: ${fmt(m,tv)} · objetivo ${m.dir<0?"máximo":"mínimo"} ${fmt(m,O[nm])}`:"",nm=="sol"?2:0)}
+ $("k4").innerHTML=kc("NPS equipo",fmt(MK.nps,NT.nps),"Objetivo "+fmt(MK.nps,O.nps),st(MK.nps,NT.nps))+kc("SOL equipo",fmt(MK.sol,NT.sol),"Objetivo "+fmt(MK.sol,O.sol),st(MK.sol,NT.sol))+kc("Encuestas",Math.round(NT.enc),N.length+" asesores")+kc(m.l+" por mejorar",l.nbad+" de "+l.nev,"con al menos "+mi+" encuestas",l.nbad?"bad":"ok")+kc("Muestra baja",l.nlow,"menos de "+mi+" encuestas");
+ const q=fq("fq4"),ob=O[nm],dv=nm=="nps",okv=r=>r[nm]!=null,srt=(a,b)=>a[nm]-b[nm],ev=N.filter(r=>okv(r)&&mt(q,r.n)&&(r.enc==null||r.enc>=mi)).sort(srt),lw=N.filter(r=>okv(r)&&mt(q,r.n)&&r.enc!=null&&r.enc<mi).sort(srt);
+ const X=v=>dv?50+v*50:v*100,card=(r,low)=>{const v=r[nm],s=low?"nd":st(m,v),c=s=="bad"?"bad":"ok",l0=dv?Math.min(50,X(v)):0,w=dv?Math.abs(X(v)-50):X(v);
+  return`<div style="border:1px solid var(--bd);border-radius:10px;padding:10px;text-align:center;${low?"opacity:.55":""}"><div style="font-size:12px;font-weight:600;line-height:1.25;margin-bottom:4px">${esc(r.n)}</div><b class="${low?"":c}" style="display:block;font-size:22px">${fmt(m,v)}</b><div class="tr" style="margin:8px 0 2px"><i style="left:${l0}%;width:${w}%;background:var(--${low?"mu":c})"></i>${dv?'<span style="position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--mu)"></span>':""}${ob==null?"":`<u style="left:${X(ob)}%"></u>`}</div>${dv?'<div class="nd" style="display:flex;justify-content:space-between;font-size:10px"><span>-100%</span><span>0</span><span>+100%</span></div>':""}<div class="nd" style="font-size:11px;margin-top:2px">n=${r.enc==null?"–":r.enc}${low?" · muestra baja":""}</div></div>`};
+ $("l4").innerHTML=`<div class="sub" style="margin-bottom:8px">${m.l} por asesor · ${dv?"centro = 0, a la izquierda negativo y a la derecha positivo · ":""}línea negra = objetivo ${fmt(m,ob)} · de menor a mayor${lw.length?"; en gris, muestra baja":""}</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px">`+ev.map(r=>card(r,0)).join("")+lw.map(r=>card(r,1)).join("")+"</div>"+(ev.length+lw.length?"":'<div class="empty">Ningún asesor coincide con la búsqueda.</div>')}
+
+const DCS="";
+let CD={v:"a",meta:null},CDX=null,SPK=null,_rz;
+const csNum=x=>{if(x==null)return null;x=String(x).trim().replace(",",".");if(x==="")return null;const n=parseFloat(x);return isNaN(n)?null:n};
+const csWd=d=>{const[a,b,c]=d.split("/").map(Number);return"DLMXJVS"[new Date(c,b-1,a).getDay()]};
+function csAgg(rows,nd){const d=[];for(let i=0;i<nd;i++){let n=0,t=0;rows.forEach(r=>{const c=r.d[i];if(c){n+=c.n;t+=c.n*c.v}});d.push(n?{n,v:t/n}:null)}return{n:"Total general",d}}
+function parseCsatMatrix(txt){
+ const L=String(txt||"").split(/\r?\n/).filter(l=>l.trim()),E={days:[],rows:[],team:null,byName:{}};
+ if(L.length<3)return E;
+ const days=[];L[0].split("\t").forEach((c,i)=>{c=c.trim();if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(c))days.push({date:c,i})});
+ if(!days.length)return E;
+ let st=1;while(st<L.length&&!/nombre/i.test(L[st].split("\t")[0]))st++;st++;
+ const rows=[];let team=null;
+ for(let k=st;k<L.length;k++){const c=L[k].split("\t").map(x=>x.trim()),nm=c[0];if(!nm)continue;
+  const o={n:nm,d:days.map(d=>{const n=csNum(c[d.i]),v=csNum(c[d.i+1]);return n>0&&v!=null?{n,v}:null})};
+  if(/total general/i.test(nm))team=o;else rows.push(o)}
+ if(!team)team=csAgg(rows,days.length);
+ const byName={};rows.forEach(r=>{let n=0,t=0;r.d.forEach(c=>{if(c){n+=c.n;t+=c.n*c.v}});r.tn=n;r.tv=n?t/n:null;byName[r.n]=r});
+ return{days:days.map(d=>d.date),rows,team,byName}}
+const csDaily=()=>CDX||(CDX=parseCsatMatrix(DCS));
+function csView(v){CD.v=v;render()}
+function csMeta(v){v=csNum(v);if(v!=null)CD.meta=v;render()}
+function csSpark(r){const D=csDaily(),x=D.byName[r.n],n=D.days.length;if(!x||!n)return'<div class="sp"></div>';
+ const W=80,H=22,m=CD.meta,X=i=>n>1?2+i*(W-4)/(n-1):W/2,Y=v=>H-2-(Math.max(5,Math.min(10,v))-5)/5*(H-4),p=[];
+ x.d.forEach((c,i)=>{if(c)p.push([X(i),Y(c.v),c.v])});if(!p.length)return'<div class="sp"></div>';
+ const ym=Y(m).toFixed(1),ln=p.length>1?`<polyline points="${p.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join(" ")}" fill="none" stroke="var(--ac)" stroke-width="1.5" stroke-linejoin="round"/>`:"";
+ return`<div class="sp" title="Tendencia diaria ${D.days[0].slice(0,5)}–${D.days[n-1].slice(0,5)} · punto verde ≥ meta ${m}, rojo < meta · eje 5 a 10"><svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><line x1="0" x2="${W}" y1="${ym}" y2="${ym}" stroke="var(--mu)" stroke-dasharray="3 3" opacity=".55"/>${ln}${p.map(q=>`<circle cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="2" fill="var(--${q[2]>=m?"ok":"bad"})"/>`).join("")}</svg></div>`}
+function csGlobal(D){const el=$("cs-gl"),days=D.days,t=D.team.d,m=CD.meta,n=days.length;
+ const W=Math.max(300,el.clientWidth||640),H=214,Lm=34,Rm=12,top=16,ph=100,by=top+ph+12,bh=34,sw=(W-Lm-Rm)/n,X=i=>Lm+sw*(i+.5);
+ const vs=t.filter(Boolean).map(c=>c.v);if(!vs.length){el.innerHTML="";return}
+ const lo=Math.min(m,...vs)-.3,hi=Math.max(m,...vs)+.3,Y=v=>top+ph-(v-lo)/(hi-lo)*ph,mx=Math.max(1,...t.map(c=>c?c.n:0)),big=sw>=30,mxv=Math.max(...vs),mnv=Math.min(...vs);
+ let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" role="img" aria-label="Tendencia diaria del CSAT del equipo" style="display:block">`;
+ days.forEach((d,i)=>{if("SD".includes(csWd(d)))g+=`<rect x="${Lm+sw*i}" y="${top-6}" width="${sw}" height="${ph+bh+22}" fill="var(--bd)" opacity=".35"/>`});
+ [lo,(lo+hi)/2,hi].forEach(v=>{g+=`<line x1="${Lm}" x2="${W-Rm}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="var(--bd)"/><text x="${Lm-5}" y="${(Y(v)+3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--mu)">${v.toFixed(1)}</text>`});
+ g+=`<line x1="${Lm}" x2="${W-Rm}" y1="${Y(m).toFixed(1)}" y2="${Y(m).toFixed(1)}" stroke="var(--tx)" stroke-dasharray="5 4" opacity=".6"/><text x="${W-Rm}" y="${(Y(m)-4).toFixed(1)}" text-anchor="end" font-size="10" fill="var(--tx)" opacity=".75">Meta ${m}</text>`;
+ const pts=t.map((c,i)=>c?[X(i),Y(c.v),c,i]:null).filter(Boolean);
+ g+=`<polyline points="${pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" ")}" fill="none" stroke="var(--ac)" stroke-width="2.2" stroke-linejoin="round"/>`;
+ pts.forEach(p=>{const c=p[2],lab=big||c.v==mxv||c.v==mnv;
+  g+=`<g><title>${days[p[3]].slice(0,5)}: CSAT ${c.v.toFixed(2)} · ${c.n} encuestas</title><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="var(--${c.v>=m?"ok":"bad"})" stroke="var(--card)" stroke-width="1.5"/>${lab?`<text x="${p[0].toFixed(1)}" y="${(p[1]-9).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--tx)">${c.v.toFixed(2)}</text>`:""}</g>`});
+ t.forEach((c,i)=>{if(!c)return;const h=Math.max(2,c.n/mx*bh);g+=`<rect x="${(X(i)-sw*.28).toFixed(1)}" y="${(by+bh-h).toFixed(1)}" width="${(sw*.56).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="var(--ac)" opacity=".35"><title>${c.n} encuestas</title></rect>`;if(sw>=26)g+=`<text x="${X(i).toFixed(1)}" y="${(by+bh-h-3).toFixed(1)}" text-anchor="middle" font-size="9.5" fill="var(--mu)">${c.n}</text>`});
+ const stp=sw<34?2:1;days.forEach((d,i)=>{if(i%stp==0)g+=`<text x="${X(i).toFixed(1)}" y="${by+bh+14}" text-anchor="middle" font-size="10" fill="var(--mu)">${d.slice(0,5)}</text>`});
+ g+=`</svg>`;
+ const c10=days.map((d,i)=>({d,c:t[i]})).filter(x=>x.c&&x.c.n>=10).sort((a,b)=>b.c.v-a.c.v),tot=t.reduce((a,c)=>a+(c?c.n:0),0);
+ const ins=c10.length>1?`Mejor día: <b>${c10[0].d.slice(0,5)}</b> (${c10[0].c.v.toFixed(2)} · ${c10[0].c.n} enc.) · Día más bajo: <b>${c10[c10.length-1].d.slice(0,5)}</b> (${c10[c10.length-1].c.v.toFixed(2)} · ${c10[c10.length-1].c.n} enc.) · se comparan solo días con 10 o más encuestas · `:"";
+ el.innerHTML=`<div class="sub" style="margin:0 0 2px">CSAT del equipo por día · punto verde ≥ meta, rojo bajo la meta · barras = encuestas del día · franja gris = fin de semana</div>${g}<div class="cs-in">${ins}${days.length} días · ${tot} encuestas</div>`}
+function csHeat(D,q){const m=CD.meta,rows=D.rows.filter(r=>mt(q,r.n));
+ const ac=r=>{const c=C.find(x=>x.n==r.n);return c&&c.csat!=null?{v:c.csat,n:c.enc!=null?c.enc:r.tn}:{v:r.tv,n:r.tn}};
+ rows.forEach(r=>r.a=ac(r));rows.sort((a,b)=>(a.a.v==null)-(b.a.v==null)||a.a.v-b.a.v);
+ if(!rows.length)return'<div class="empty">Ningún asesor coincide con la búsqueda.</div>';
+ const cls=v=>v>=m?"ok":v<m-2?"bad2":"bad",cell=c=>c?`<td class="${cls(c.v)}" title="${c.v.toFixed(2)} · ${c.n} encuesta${c.n==1?"":"s"}">${c.v.toFixed(2)}<small>(${c.n})</small></td>`:'<td class="nd">–</td>',acc=a=>a.v==null?'<td class="nd">–</td>':`<td class="${cls(a.v)} ac">${a.v.toFixed(2)}<small>(${a.n})</small></td>`;
+ let h=`<div class="sub" style="margin:0 0 6px">Mapa de calor · CSAT de cada asesor por día, con el número de encuestas entre paréntesis · de menor a mayor CSAT acumulado</div><div class="hm"><table><thead><tr><th>Asesor</th>`+D.days.map(d=>{const w=csWd(d);return`<th class="${"SD".includes(w)?"we":""}">${d.slice(0,5)}<small>${w}</small></th>`}).join("")+`<th>Acum.<small>mes</small></th></tr></thead><tbody>`;
+ rows.forEach(r=>{h+=`<tr><td title="${esc(r.n)}">${esc(r.n)}</td>${r.d.map(cell).join("")}${acc(r.a)}</tr>`});
+ h+=`<tr class="eq"><td>Equipo</td>${D.team.d.map(cell).join("")}${acc({v:CT.csat!=null?CT.csat:D.team.tv,n:CT.enc!=null?Math.round(CT.enc):D.team.tn})}</tr></tbody></table></div>`;
+ return h+`<div class="hl"><span><i style="background:color-mix(in srgb,var(--ok) 24%,var(--card))"></i>cumple la meta (≥ ${m})</span><span><i style="background:color-mix(in srgb,var(--bad) 22%,var(--card))"></i>bajo la meta</span><span><i style="background:color-mix(in srgb,var(--bad) 45%,var(--card))"></i>más de 2 puntos bajo la meta</span><span>– sin encuestas ese día</span><span>L M X J V S D = día de la semana</span></div>`}
+function csRender(){const D=csDaily(),has=D.days.length>0;if(CD.meta==null)CD.meta=O.csat!=null?O.csat:9;
+ $("cd5").classList.toggle("hide",!has);if(!has){$("hm5").classList.add("hide");$("l5").classList.remove("hide");return}
+ $("cvA").classList.toggle("on",CD.v=="a");$("cvH").classList.toggle("on",CD.v=="h");if(document.activeElement!==$("cmeta"))$("cmeta").value=CD.meta;
+ csGlobal(D);const hm=CD.v=="h";$("hm5").classList.toggle("hide",!hm);$("l5").classList.toggle("hide",hm);
+ if(hm)$("hm5").innerHTML=csHeat(D,fq("fq5"))}
+function csat(){dlf("dl5",C);csRender();
+ {const lw=C.filter(r=>r.csat!=null&&r.enc!=null&&r.enc<O.minE).length;motBox("mot5","c",MOTC,"ac","📣 Cada encuesta cuenta",C.length?`El equipo suma ${Math.round(CT.enc)} encuestas${lw?` y ${lw} asesor${lw>1?"es":""} aún ${lw>1?"tienen":"tiene"} menos de ${O.minE}: cada respuesta ayuda a que su resultado cuente.`:"."}`:"")}
+ if(!C.length){$("k5").innerHTML="";$("l5").innerHTML=NONE;return}
+ const mi=O.minE,ob=O.oc;SPK=csSpark;const l=lst(C,"csat",v=>v.toFixed(2),ob,1,mi,false,r=>mt(fq("fq5"),r.n));SPK=null;
+ $("k5").innerHTML=kc("CSAT equipo",CT.csat==null?"–":CT.csat.toFixed(2),"Objetivo "+ob,CT.csat==null?"":CT.csat>=ob?"ok":"bad")+kc("Encuestas",Math.round(CT.enc),C.length+" asesores")+kc("Por mejorar",l.nbad+" de "+l.nev,"con al menos "+mi+" encuestas",l.nbad?"bad":"ok")+kc("Muestra baja",l.nlow,"menos de "+mi+" encuestas");
+ $("l5").innerHTML=`<div class="sub" style="margin-bottom:6px">CSAT por asesor · línea negra = objetivo ${ob} · oportunidades primero; en gris, muestra baja</div>`+(l.html||'<div class="empty">Ningún asesor coincide con la búsqueda.</div>')}
+function setX(k,v){v=parseFloat(v);if(!isNaN(v)){O[k]=v;try{localStorage.setItem("go",JSON.stringify(O))}catch(e){}}render()}
+function atend(){
+ if(!R.length){$("k7").innerHTML="";$("l7").innerHTML=NONE;return}
+ const v=R.filter(r=>r.atend!=null),sd=R.length-v.length;
+ if(!v.length){$("k7").innerHTML="";$("l7").innerHTML='<div class="empty">No se encontró la columna Atendidas en la tabla pegada.</div>';return}
+ const sum=v.reduce((a,r)=>a+r.atend,0),avg=sum/v.length,srt=v.slice().sort((a,b)=>b.atend-a.atend),mx=srt[0].atend||1;
+ const md=srt.length%2?srt[(srt.length-1)/2].atend:(srt[srt.length/2-1].atend+srt[srt.length/2].atend)/2;
+ const lowT=avg*O.lowP/100,low=v.filter(r=>r.atend<lowT),f=x=>Math.round(x).toLocaleString("es-PE");
+ const cn={};R.forEach(r=>cn[r.n]=(cn[r.n]||0)+1);const dup=Object.keys(cn).filter(n=>cn[n]>1);
+ $("k7").innerHTML=kc("Atendidas (suma de asesores)",f(sum),v.length+" asesores"+(sd?" · "+sd+" sin dato":""))+kc("Promedio por asesor",f(avg),"Mediana "+f(md))+kc("Mayor",f(srt[0].atend),esc(srt[0].n))+kc("Menor",f(srt[srt.length-1].atend),esc(srt[srt.length-1].n))+kc("Bajo "+O.lowP+"% del promedio",low.length,"menos de "+f(lowT)+" llamadas")+(dup.length?kc("Nombres repetidos",dup.length,esc(dup.join(", ")),"bad"):"");
+ $("l7").innerHTML=`<div class="sub" style="margin-bottom:6px">Llamadas atendidas por asesor · línea negra = promedio (${f(avg)}) · ámbar = bajo el ${O.lowP}% del promedio</div>`+srt.map(r=>`<div class="row"><div class="nm" title="${esc(r.n)}">${esc(r.n)}</div><div class="nv">${f(r.atend)}</div><div class="tr"><i style="left:0;width:${r.atend/mx*100}%;background:var(--${r.atend<lowT?"wa":"ac"})"></i><u style="left:${avg/mx*100}%"></u></div></div>`).join("")}
+const TPRAW="Nombre Completo\tAtendidas\tTipificadas\nAlicia Alejandra Núñez Gonzales\t407\t375\nAnderson Hernan Alburqueque Camacho\t373\t381\nArnaldo Alberca Carrasco\t486\t666\nCesar Isusky Pozo Muñico\t481\t451\nDaris Annete Rojas Floreano\t286\t265\nEdinson Breyner Salvador Calderon\t754\t672\nGrecia Larisa Lopez Rodriguez\t530\t446\nIsacc Daniel Romero Ruiz\t686\t856\nIsis Ariana Pua Javo\t490\t479\nJose Enrique Calderon Jaramillo\t721\t611\nKaren Del Pilar Ramos Balda\t673\t623\nKaty Yackeline Durand Rivas\t416\t408\nKeyla Del Rosario Cordova Ojeda\t396\t437\nMaria Fernanda Joselyn Calderon Lopez\t414\t398\nMaricielo Esperanza Lopez Nima\t639\t521\nOdalis Ailin Giron Mejia\t267\t179\nRaquel Nicolle Valladares Requena\t338\t429\nRosa Del Pilar Neyra Onsebay\t741\t618\nRubby Isamar Chiroque Ruiz\t502\t740\nValeria Carolina Flores Boza\t714\t687\nYerson Martin Morales Quinde\t611\t507\nYessica Ordoñez Cruz\t261\t269\nYimer Renelmo Cordova Acaro\t249\t220\nZaida Noemi Sosa Acedo\t422\t475";
+function tpParse(){const o=[];TPRAW.split(/\n/).slice(1).forEach(l=>{const c=l.split("\t");const a=+c[1],t=+c[2];if(c[0]&&a>0&&!isNaN(t))o.push({n:c[0],a,t,p:t/a,g:t-a})});return o}
+function tipif(){const P=tpParse();dlf("dl8",P);
+ const f=x=>Math.round(x).toLocaleString("es-PE"),sg=g=>(g>0?"+":g<0?"−":"")+f(Math.abs(g)),pc=x=>(x*100).toFixed(1)+"%";
+ const LO=.98,HI=1.02,CR=.80,cls=p=>p<LO?"bad":p>HI?"ov":"ok";
+ const A=P.reduce((s,r)=>s+r.a,0),Tt=P.reduce((s,r)=>s+r.t,0),G=Tt-A,PG=A?Tt/A:0;
+ const nb=P.filter(r=>r.p<LO),no=P.filter(r=>r.p>HI),nc=P.filter(r=>r.p<CR),nk=P.length-nb.length-no.length;
+ $("k8").innerHTML=kc("Atendidas del equipo",f(A),P.length+" asesores")+kc("Tipificadas del equipo",f(Tt))+kc("Brecha global",sg(G)+" llamadas",G<0?"llamadas atendidas sin tipificar":"exceso de tipificaciones",cls(PG))+kc("% Tipificación global",pc(PG),"Meta 98%–102%",cls(PG))+kc("Bajo tipificación",nb.length+" de "+P.length,nc.length+" con prioridad alta (&lt;80%)",nb.length?"bad":"ok")+kc("Sobre-tipificación",no.length,"asesores &gt;102%",no.length?"ov":"ok");
+ const q=fq("fq8"),srt=P.slice().sort((a,b)=>a.p-b.p),rows=($("onlyTip").checked?srt.filter(r=>r.p<LO):srt).filter(r=>mt(q,r.n)),hi=Math.max(1.1,...P.map(r=>r.p))*1.04;
+ const lab={ok:"✓ Cumple",bad:"✗ Bajo tipificación",ov:"▲ Sobre-tipificación"};
+ $("l8").innerHTML=`<div class="sub" style="margin-bottom:6px">Atendidas vs. tipificadas por asesor · línea negra = meta 100% · verde 98%–102% · rojo &lt;98% · azul &gt;102% · resaltado = prioridad alta (&lt;80%) · oportunidades primero</div><div class="tpw"><div class="tpr hd"><div>Asesor</div><div class="n">Atendidas</div><div class="n">Tipificadas</div><div class="n">Brecha (llamadas)</div><div class="n">% Tip.</div><div>Avance vs. 100%</div><div>Estado</div></div>`+
+ (rows.map(r=>{const c=cls(r.p),cr=r.p<CR;return`<div class="tpr ${cr?"crit":""}"><div class="nm" title="${esc(r.n)}"><b>${esc(r.n)}</b></div><div class="n">${f(r.a)}</div><div class="n">${f(r.t)}</div><div class="n ${c=="ok"?"ok":c=="bad"?"bad":""}" style="${c=="ov"?"color:var(--ac)":""};font-weight:600">${sg(r.g)}</div><div class="n" style="font-weight:600">${pc(r.p)}</div><div class="tr"><i style="left:0;width:${Math.min(r.p,hi)/hi*100}%;background:var(--${c=="ov"?"ac":c})"></i><u style="left:${1/hi*100}%"></u></div><div><span class="tg ${cr?"crit":c}">${cr?"⚠ Prioridad alta":lab[c]}</span></div></div>`}).join("")||'<div class="empty">'+(q?"Ningún asesor coincide con la búsqueda.":"Ningún asesor bajo tipificación.")+'</div>')+`<div class="tpr" style="font-weight:700;border-top:2px solid var(--bd)"><div>Total equipo</div><div class="n">${f(A)}</div><div class="n">${f(Tt)}</div><div class="n ${cls(PG)}">${sg(G)}</div><div class="n">${pc(PG)}</div><div></div><div><span class="tg ${cls(PG)}">${lab[cls(PG)]}</span></div></div></div>`}
+function foc(){
+ const fz=O.fz,mi=O.minE;
+ if(!C.length){$("f5").innerHTML='<div class="sub" style="margin:0">Con oportunidad de mejora: pega la tabla CSAT y aparecerán aquí los asesores con CSAT bajo el umbral.</div>';return}
+ const arr=C.filter(r=>r.csat!=null&&r.csat<fz&&mt(fq("fq5"),r.n)).sort((a,b)=>a.csat-b.csat);
+ const head=`<div class="sub" style="margin-bottom:8px">Con oportunidad de mejora · asesores con CSAT menor a ${fz} · línea negra = umbral · de menor a mayor CSAT</div>`;
+ if(!arr.length){$("f5").innerHTML=head+'<div class="empty">Ningún asesor con CSAT menor a '+fz+'.</div>';return}
+ $("f5").innerHTML=head+arr.map(x=>{const low=x.enc!=null&&x.enc<mi;
+  return`<div class="row" style="${low?"opacity:.6":""}"><div class="nm" title="${esc(x.n)}">${esc(x.n)} <span style="color:var(--mu);font-size:11px">· n=${x.enc==null?"–":x.enc}${low?" · muestra baja":""}</span></div><div class="nv bad">${x.csat.toFixed(2)}</div><div class="tr"><i style="left:0;width:${Math.min(x.csat,10)/10*100}%;background:var(--bad)"></i><u style="left:${fz/10*100}%"></u></div></div>`}).join("")}
+function setO(k,v){const m=MK[k];v=parseFloat(v);O[k]=isNaN(v)?null:(m.f=="p"?v/100:v);try{localStorage.setItem("go",JSON.stringify(O))}catch(e){}render()}
+function uso(){dlf("dl6",U);
+ const obj=+$("objU").value||100,TQ=U.reduce((a,x)=>a+x.q,0),TT=U.reduce((a,x)=>a+x.t,0),pg=TT?TQ/TT*100:0;
+ const Of=U.filter(x=>x.p<obj).sort((a,b)=>b.g-a.g||a.p-b.p),gap=Of.reduce((a,x)=>a+x.g,0);
+ $("ku").innerHTML=U.length?`<div class="k ${pg>=obj?"ok":"bad"}" style="cursor:default"><span>USO general</span><b>${pg.toFixed(2)}%</b><small>${TQ} de ${TT}</small></div><div class="k" style="cursor:default"><span>Por mejorar</span><b>${Of.length} de ${U.length}</b></div><div class="k" style="cursor:default"><span>En 0% de uso</span><b>${U.filter(x=>x.q==0).length}</b></div><div class="k" style="cursor:default"><span>Casos sin uso</span><b>${gap}</b></div>`:"";
+ const q6=fq("fq6"),A=U.filter(x=>mt(q6,x.n)).sort((a,b)=>a.p-b.p||b.g-a.g);
+ $("lu").innerHTML=!U.length?'<div class="empty">Pega la tabla de Usabilidad Visor arriba o carga el ejemplo.</div>':'<div class="sub" style="margin-bottom:8px">Todos los asesores ('+(q6?A.length+' de ':'')+U.length+') · verde = cumple el objetivo · ámbar = bajo el objetivo · rojo = menos del 50% de uso</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">'+A.map(x=>{const R=26,C=2*Math.PI*R,c=x.p>=obj?"ok":x.p<50?"bad":"wa";return`<div style="border:1px solid var(--bd);border-radius:10px;padding:10px;text-align:center"><svg viewBox="0 0 64 64" style="width:64px;margin:0 auto"><circle cx="32" cy="32" r="${R}" fill="none" stroke="var(--bd)" stroke-width="8"/><circle cx="32" cy="32" r="${R}" fill="none" stroke="var(--${c})" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C*x.p/100} ${C}" transform="rotate(-90 32 32)"/><text x="32" y="36" text-anchor="middle" style="font-size:12px;font-weight:700;fill:var(--tx)">${x.p.toFixed(0)}%</text></svg><div style="font-size:12px;font-weight:600;margin-top:4px;line-height:1.25">${esc(x.n)}</div><div class="nd" style="font-size:12px">${x.q} de ${x.t}</div></div>`}).join("")+"</div>"}
+let SY={sty:"auto",shp:"std"};
+function applySty(){const d=document.documentElement;SY.sty=="auto"?d.removeAttribute("data-style"):d.setAttribute("data-style",SY.sty);SY.shp=="std"?d.removeAttribute("data-shape"):d.setAttribute("data-shape",SY.shp);}
+function setSty(k,v){SY[k]=v;try{localStorage.setItem("gs",JSON.stringify(SY))}catch(e){}applySty()}
+applySty();
+const SEED={"in1": "Nombre Completo\tAtendidas\t% Transferencia\t% Rellamada 72HRS\t% Rellamada  30MIN \t% Rellamada 24HRS\t% ShortCall\tTMO \tEncuestas\t% NPS \t% SOL \t% Hold\t% Tipificacion\tCSAT\nAlicia Alejandra Núñez Gonzales\t407\t18.77%\t15.91%\t2.26%\t11.74%\t0.00%\t463.00\t6\t100.00%\t83.33%\t19.07%\t92.03%\t9.20\nAnderson Hernan Alburqueque Camacho\t373\t16.99%\t20.15%\t7.42%\t13.41%\t0.27%\t521.00\t6\t0.00%\t50.00%\t15.85%\t102.19%\t8.59\nArnaldo Alberca Carrasco\t486\t25.94%\t19.51%\t5.65%\t13.24%\t1.11%\t573.00\t7\t28.57%\t57.14%\t38.21%\t137.03%\t9.70\nCesar Isusky Pozo Muñico\t481\t18.71%\t17.55%\t4.68%\t11.44%\t1.72%\t662.00\t4\t-50.00%\t25.00%\t32.68%\t93.76%\t9.39\nDaris Annete Rojas Floreano\t286\t25.30%\t17.28%\t6.47%\t15.69%\t0.80%\t461.00\t4\t-50.00%\t75.00%\t4.91%\t92.77%\t9.40\nEdinson Breyner Salvador Calderon\t754\t20.67%\t21.18%\t6.93%\t15.45%\t0.55%\t380.00\t8\t0.00%\t37.50%\t0.00%\t89.18%\t9.35\nGrecia Larisa Lopez Rodriguez\t530\t24.90%\t15.90%\t4.80%\t12.38%\t0.57%\t577.00\t8\t-50.00%\t25.00%\t4.55%\t84.10%\t9.14\nIsacc Daniel Romero Ruiz\t686\t18.88%\t16.95%\t3.63%\t11.17%\t0.16%\t561.00\t11\t-27.27%\t54.55%\t20.45%\t124.80%\t9.28\nIsis Ariana Pua Javo\t490\t27.31%\t19.44%\t6.88%\t16.10%\t0.84%\t601.00\t6\t33.33%\t66.67%\t41.00%\t97.69%\t9.39\nJose Enrique Calderon Jaramillo\t721\t19.75%\t21.41%\t7.98%\t17.79%\t0.94%\t425.00\t11\t9.09%\t63.64%\t9.75%\t84.80%\t9.32\nKaren Del Pilar Ramos Balda\t673\t22.96%\t18.03%\t6.23%\t15.23%\t0.46%\t499.00\t1\t100.00%\t0.00%\t30.71%\t92.60%\t9.21\nKaty Yackeline Durand Rivas\t416\t19.89%\t19.60%\t10.48%\t17.95%\t1.59%\t498.00\t6\t-33.33%\t33.33%\t19.44%\t98.14%\t9.43\nKeyla Del Rosario Cordova Ojeda\t396\t28.35%\t17.99%\t5.31%\t15.25%\t1.55%\t476.00\t1\t-100.00%\t0.00%\t20.78%\t110.31%\t9.65\nMaria Fernanda Joselyn Calderon Lopez\t414\t17.87%\t21.52%\t5.91%\t12.68%\t0.74%\t653.00\t4\t-50.00%\t25.00%\t13.40%\t96.03%\t8.80\nMaricielo Esperanza Lopez Nima\t639\t28.50%\t26.04%\t9.87%\t20.11%\t1.04%\t397.00\t9\t-22.22%\t55.56%\t9.52%\t81.52%\t8.35\nOdalis Ailin Giron Mejia\t267\t21.76%\t19.77%\t8.51%\t14.72%\t0.76%\t596.00\t2\t0.00%\t50.00%\t38.30%\t67.18%\t9.28\nRaquel Nicolle Valladares Requena\t338\t18.60%\t24.57%\t9.18%\t19.34%\t2.44%\t678.00\t2\t0.00%\t50.00%\t26.55%\t126.83%\t9.32\nRosa Del Pilar Neyra Onsebay\t741\t26.26%\t19.82%\t4.70%\t14.45%\t0.42%\t483.00\t3\t-33.33%\t66.67%\t3.46%\t83.38%\t9.39\nRubby Isamar Chiroque Ruiz\t502\t27.63%\t20.40%\t8.14%\t18.02%\t1.65%\t522.00\t6\t-50.00%\t33.33%\t21.93%\t147.42%\t8.96\nValeria Carolina Flores Boza\t714\t21.67%\t19.44%\t4.50%\t15.95%\t1.00%\t546.00\t11\t27.27%\t63.64%\t22.57%\t96.17%\t9.47\nYerson Martin Morales Quinde\t611\t21.17%\t21.60%\t8.28%\t16.62%\t1.38%\t611.47\t9\t-33.33%\t44.44%\t22.03%\t82.96%\t9.11\nYessica Ordoñez Cruz\t261\t16.13%\t16.18%\t3.42%\t10.00%\t0.81%\t596.73\t4\t-50.00%\t0.00%\t8.81%\t103.23%\t9.85\nYimer Renelmo Cordova Acaro\t249\t25.10%\t18.71%\t8.27%\t12.16%\t0.40%\t808.74\t0\t\t\t12.25%\t88.26%\t9.75\nZaida Noemi Sosa Acedo\t422\t18.62%\t19.41%\t4.85%\t15.69%\t0.24%\t584.22\t4\t25.00%\t75.00%\t16.82%\t112.65%\t9.13\nTotal general\t11857\t22.34%\t19.69%\t6.37%\t15.07%\t0.87%\t533.06\t133\t-8.27%\t49.62%\t18.25%\t98.79%\t9.38", "in2": "Masivo Convergente\tAlicia Alejandra Núñez Gonzales\t17\t17\t100.00%\n\tAnderson Hernan Alburqueque Camacho\t8\t11\t72.73%\n\tArnaldo Alberca Carrasco\t2\t5\t40.00%\n\tCesar Isusky Pozo Muñico\t3\t9\t33.33%\n\tEdinson Breyner Salvador Calderon\t15\t19\t78.95%\n\tGrecia Larisa Lopez Rodriguez\t9\t12\t75.00%\n\tIsacc Daniel Romero Ruiz\t13\t13\t100.00%\n\tIsis Ariana Pua Javo\t1\t2\t50.00%\n\tJose Enrique Calderon Jaramillo\t8\t8\t100.00%\n\tKaren Del Pilar Ramos Balda\t4\t4\t100.00%\n\tKaty Yackeline Durand Rivas\t4\t5\t80.00%\n\tKeyla Del Rosario Cordova Ojeda\t6\t7\t85.71%\n\tMaria Fernanda Joselyn Calderon Lopez\t7\t12\t58.33%\n\tMaricielo Esperanza Lopez Nima\t12\t18\t66.67%\n\tOdalis Ailin Giron Mejia\t4\t7\t57.14%\n\tRaquel Nicolle Valladares Requena\t2\t4\t50.00%\n\tRosa Del Pilar Neyra Onsebay\t9\t14\t64.29%\n\tRubby Isamar Chiroque Ruiz\t2\t4\t50.00%\n\tValeria Carolina Flores Boza\t9\t17\t52.94%\n\tYerson Martin Morales Quinde\t3\t3\t100.00%\n\tYessica Ordoñez Cruz\t4\t4\t100.00%\n\tYimer Renelmo Cordova Acaro\t4\t4\t100.00%\n\tZaida Noemi Sosa Acedo\t5\t5\t100.00%", "in3": "Nombre Completo\tJefe Directo\tNPS\tSOL\tCant. Enc.\nAlicia Alejandra Núñez Gonzales\tGuillermo Alonso Carrion Espinosa\t100.00%\t83.33%\t6\nAnderson Hernan Alburqueque Camacho\tGuillermo Alonso Carrion Espinosa\t0.00%\t50.00%\t6\nArnaldo Alberca Carrasco\tGuillermo Alonso Carrion Espinosa\t28.57%\t57.14%\t7\nCesar Isusky Pozo Muñico\tGuillermo Alonso Carrion Espinosa\t-50.00%\t25.00%\t4\nDaris Annete Rojas Floreano\tGuillermo Alonso Carrion Espinosa\t-50.00%\t75.00%\t4\nEdinson Breyner Salvador Calderon\tGuillermo Alonso Carrion Espinosa\t0.00%\t37.50%\t8\nGrecia Larisa Lopez Rodriguez\tGuillermo Alonso Carrion Espinosa\t-50.00%\t25.00%\t8\nIsacc Daniel Romero Ruiz\tGuillermo Alonso Carrion Espinosa\t-27.27%\t54.55%\t11\nIsis Ariana Pua Javo\tGuillermo Alonso Carrion Espinosa\t33.33%\t66.67%\t6\nJose Enrique Calderon Jaramillo\tGuillermo Alonso Carrion Espinosa\t9.09%\t63.64%\t11\nKaren Del Pilar Ramos Balda\tGuillermo Alonso Carrion Espinosa\t100.00%\t0.00%\t1\nKaty Yackeline Durand Rivas\tGuillermo Alonso Carrion Espinosa\t-33.33%\t33.33%\t6\nKeyla Del Rosario Cordova Ojeda\tGuillermo Alonso Carrion Espinosa\t-100.00%\t0.00%\t1\nMaria Fernanda Joselyn Calderon Lopez\tGuillermo Alonso Carrion Espinosa\t-50.00%\t25.00%\t4\nMaricielo Esperanza Lopez Nima\tGuillermo Alonso Carrion Espinosa\t-22.22%\t55.56%\t9\nOdalis Ailin Giron Mejia\tGuillermo Alonso Carrion Espinosa\t0.00%\t50.00%\t2\nRaquel Nicolle Valladares Requena\tGuillermo Alonso Carrion Espinosa\t0.00%\t50.00%\t2\nRosa Del Pilar Neyra Onsebay\tGuillermo Alonso Carrion Espinosa\t-33.33%\t66.67%\t3\nRubby Isamar Chiroque Ruiz\tGuillermo Alonso Carrion Espinosa\t-50.00%\t33.33%\t6\nValeria Carolina Flores Boza\tGuillermo Alonso Carrion Espinosa\t27.27%\t63.64%\t11\nYerson Martin Morales Quinde\tGuillermo Alonso Carrion Espinosa\t-33.33%\t44.44%\t9\nYessica Ordoñez Cruz\tGuillermo Alonso Carrion Espinosa\t-50.00%\t0.00%\t4\nZaida Noemi Sosa Acedo\tGuillermo Alonso Carrion Espinosa\t25.00%\t75.00%\t4", "in4": "Nombre Completo\tCant. Encuestas\tCSAT\nAlicia Alejandra Núñez Gonzales\t21\t8.90\nAnderson Hernan Alburqueque Camacho\t13\t8.85\nDaris Annete Rojas Floreano\t15\t9.87\nEdinson Breyner Salvador Calderon\t30\t9.43\nGrecia Larisa Lopez Rodriguez\t17\t9.00\nIsacc Daniel Romero Ruiz\t34\t9.38\nJose Enrique Calderon Jaramillo\t37\t9.41\nKaren Del Pilar Ramos Balda\t21\t9.62\nKaty Yackeline Durand Rivas\t43\t9.33\nKeyla Del Rosario Cordova Ojeda\t19\t9.58\nMaria Fernanda Joselyn Calderon Lopez\t12\t9.25\nMaricielo Esperanza Lopez Nima\t16\t8.00\nOdalis Ailin Giron Mejia\t31\t9.16\nRosa Del Pilar Neyra Onsebay\t39\t9.69\nValeria Carolina Flores Boza\t43\t9.86\nYerson Martin Morales Quinde\t14\t9.64\nYessica Ordoñez Cruz\t14\t9.93\nYimer Renelmo Cordova Acaro\t10\t9.90\nZaida Noemi Sosa Acedo\t31\t9.03", "in5": "Nombre Completo\tLlamadas IP\tContención\nAlicia Alejandra Núñez Gonzales\t26\t11.54%\nAnderson Hernan Alburqueque Camacho\t8\t50.00%\nDaris Annete Rojas Floreano\t11\t72.73%\nEdinson Breyner Salvador Calderon\t37\t40.54%\nGrecia Larisa Lopez Rodriguez\t27\t40.74%\nIsacc Daniel Romero Ruiz\t33\t45.45%\nJose Enrique Calderon Jaramillo\t10\t50.00%\nKaren Del Pilar Ramos Balda\t23\t39.13%\nKaty Yackeline Durand Rivas\t25\t96.00%\nKeyla Del Rosario Cordova Ojeda\t5\t40.00%\nMaria Fernanda Joselyn Calderon Lopez\t25\t8.00%\nMaricielo Esperanza Lopez Nima\t25\t40.00%\nOdalis Ailin Giron Mejia\t12\t33.33%\nRosa Del Pilar Neyra Onsebay\t32\t31.25%\nValeria Carolina Flores Boza\t19\t15.79%\nYerson Martin Morales Quinde\t18\t72.22%\nYessica Ordoñez Cruz\t14\t78.57%\nYimer Renelmo Cordova Acaro\t27\t22.22%\nZaida Noemi Sosa Acedo\t23\t43.48%"};try{for(const k in SEED)$(k).value=SEED[k]}catch(e){}
+$("minE").value=O.minE;$("minN").value=O.minN;$("lowP").value=O.lowP;$("fz").value=O.fz;$("oc").value=O.oc;
+tab=10;
+
+const RW=[{k:"sol",w:40},{k:"nps",w:20},{k:"r72",w:20},{k:"r30",w:10},{k:"tr",w:10}],RLAB={sol:"SOL",nps:"NPS",r72:"Rell. 72 h",r30:"Rell. 30 min",tr:"Transferencia"},MINAT=30;
+function rRatio(m,v){const o=O[m.k];let x=m.k=="nps"?(v+1)/(o+1):m.dir>0?v/o:(v<=0?1:o/v);return Math.max(0,Math.min(1,x))}
+function rankW(){
+ if(!R.length)return'<div class="card empty">Aún no hay datos.</div>';
+ const ps=R.map(r=>{const x=N.find(a=>norm(a.n)==norm(r.n)),ne=x&&x.enc!=null?x.enc:(r.enc||0);
+  const it=RW.map(y=>{const m=MK[y.k],v=gv(r,y.k),sv=y.k=="nps"||y.k=="sol",ok=v!=null&&(r.atend||0)>=MINAT&&(!sv||ne>=O.minN);return{...y,m,v,ok,q:ok?rRatio(m,v):0}});
+  return{n:r.n,at:r.atend||0,it,s:it.reduce((a,y)=>a+y.w*y.q,0),c:it.every(y=>y.ok)}});
+ const full=ps.filter(p=>p.c).sort((a,b)=>b.s-a.s),part=ps.filter(p=>!p.c).sort((a,b)=>a.n.localeCompare(b.n,"es"));
+ const md=["🥇","🥈","🥉"],tier=s=>s>=90?"ok":s>=70?"wa":"bad";
+ const row=(p,i,inc)=>{const t=inc?"nd":tier(p.s),w=inc?0:Math.min(100,p.s);
+  const det=p.it.map(y=>`<span class="rc ${y.ok?st(y.m,y.v):"nd"}">${RLAB[y.k]}: ${y.ok?fmt(y.m,y.v):"–"}</span>`).join("");
+  return`<details class="rrow ${t}${!inc&&i<3?" top":""}${p.n==me?" isme":""}"><summary><span class="rp">${inc?"–":(md[i]||"#"+(i+1))}</span><span class="rn2"><b>${esc(p.n)}</b><small>${p.at} llamadas${p.n==me?" · Tú":""}</small></span><span class="rbar"><i style="width:${w}%"></i><em></em></span><span class="rv">${inc?"–":p.s.toFixed(1)}</span></summary><div class="rdet">${det}</div></details>`};
+ const wts=RW.map(y=>`<div class="wt"><b>${y.w}%</b>${RLAB[y.k]} ${MK[y.k].dir>0?"≥":"≤"} ${fmt(MK[y.k],O[y.k])}</div>`).join("");
+ const pos=full.findIndex(p=>p.n==me);
+ return`<div class="card"><h2 class="rh">🏆 Ranking ponderado del grupo</h2><p class="rmu">Puntaje de 0 a 100 según el peso de cada indicador. Toca un asesor para ver su detalle. Entran al ranking quienes tienen al menos ${MINAT} llamadas y ${O.minN} encuesta${O.minN==1?"":"s"} de NPS.</p><div class="wts">${wts}</div><p class="rmu">La línea vertical marca 90 puntos · <b class="ok">Verde</b>: 90 o más · <b class="wa">Ámbar</b>: 70 a 89 · <b class="bad">Rojo</b>: menos de 70</p>${pos>=0?`<p class="rmu">Tu posición: <b>#${pos+1}</b> de ${full.length}</p>`:""}</div>
+ <div class="card">${full.map((p,i)=>row(p,i,false)).join("")||'<div class="empty">Nadie tiene aún los datos completos.</div>'}</div>
+ ${part.length?`<div class="card"><p class="rmu" style="margin-top:0"><b>Sin ranking completo</b> (menos de ${MINAT} llamadas o sin encuestas de NPS)</p>${part.map(p=>row(p,0,true)).join("")}</div>`:""}`}
+const _rnd=render;render=function(){_rnd();if(tab==9)$("wrk").innerHTML=rankW()};
+
+const WK={};
+const PERS={acum:{t:"Acumulado",s:"Datos al 08/10"}};
+let PER="acum",SN={};try{const p=localStorage.getItem("gper");if(p&&PERS[p])PER=p}catch(e){}
+const snapG=()=>({R,T,TA,TRw,U,N,NT,C,CT});
+function applyG(s){R=s.R;T=s.T;TA=s.TA;TRw=s.TRw;U=s.U;N=s.N;NT=s.NT;C=s.C;CT=s.CT}
+function buildW(k){const w=WK[k],a=parseInd(w.ind),pn=parseSimple(w.nps,{nps:/nps/i,sol:/\bsol|soluci/i,enc:/enc/i},["nps","sol"]);
+ return{R:a.rows,T:a.tot||{},TA:a.tot?a.tot.atend:null,TRw:a.tot||null,U:parseUso(w.uso),N:pn.rows,NT:wavg(pn.rows,pn.tot,["nps","sol"]),C:[],CT:{}}}
+function setPer(p){PER=p;try{localStorage.setItem("gper",p)}catch(e){}render()}
+const _rnd2=render;render=function(){
+ if(!SN.acum)SN.acum=snapG();
+ const p=[10,1,9].includes(tab)?PER:"acum";
+ if(p!="acum"&&!SN[p])SN[p]=buildW(p);
+ applyG(SN[p]);_rnd2();
+ const id={10:"ps10",1:"ps1",9:"ps9"}[tab];
+ if(id)$(id).innerHTML=`<div class="perb" role="group" aria-label="Periodo">${Object.entries(PERS).map(([k,v])=>`<button class="${k==PER?"on":""}" onclick="setPer('${k}')">${v.t}<small>${v.s}</small></button>`).join("")}</div>${PER!="acum"?'<div class="pnote">Semana calculada con el detalle diario · Visor de la semana 2 hasta el 18/10 (semana 3 aún sin Visor) · CSAT solo en Acumulado</div>':""}`;
+ const WEND={s1:"11/10",s2:"18/10"};if(tab==10&&WEND[PER])$("mi").innerHTML=$("mi").innerHTML.replace(/Dato al \d\d\/\d\d/g,"Dato al "+WEND[PER]);
+ applyG(SN.acum)};
+</script><script>(function(){var el=document.getElementById("intro");if(!el)return;var tm=null,raf=null;
+function words(t){var h=el.querySelector("h2");h.innerHTML=t.split(" ").map(function(w,i){return '<span class="w1" style="animation-delay:'+(.5+i*.22).toFixed(2)+'s">'+w+'</span>'}).join(" ")+" 🙌"}
+function kp(){var box=document.getElementById("introK");if(!box)return;box.innerHTML="";cancelAnimationFrame(raf);var items=[];
+var fell=[];try{EV.forEach(function(m){var fromN=m.k=="nps"||m.k=="sol",tv=fromN?(N.length&&NT[m.k]!=null?NT[m.k]:null):T[m.k];if(tv==null)return;var pv=PREV[m.k],worse=pv!=null&&m.dir!=0&&(m.dir<0?tv>pv+1e-6:tv<pv-1e-6);if(worse)fell.push(m.l.replace(/^%\s*/,""));else if(st(m,tv)=="ok")items.push({m:m,v:tv,o:O[m.k]})})}catch(e){}
+var nt=document.getElementById("introNote");if(nt){nt.textContent=fell.length?"Ojo: bajaron "+fell.join(", ")+" ⬇️ ¡vamos por la recuperación! 💪":"";nt.style.display=fell.length?"":"none"}
+if(!items.length){words("EQUIPO, SEGUIMOS TRABAJANDO PARA MEJORAR LOS INDICADORES!");box.style.display="none";return}
+words("EQUIPO, MEJORAMOS EN ESTOS INDICADORES!");box.style.display="";
+items.forEach(function(it){var d=document.createElement("div");d.className="kp";d.innerHTML="<span>"+it.m.l.replace(/^%\s*/,"").toUpperCase()+" ✅</span><b></b><small>Objetivo "+(it.m.dir<0?"máx. ":"mín. ")+(it.o==null?"–":fmt(it.m,it.o))+"</small>";it.b=d.querySelector("b");it.b.textContent=fmt(it.m,0);box.appendChild(d)});
+var t0=null;function tick(t){if(t0===null)t0=t+2300;var p=Math.max(0,Math.min(1,(t-t0)/1300)),e=1-Math.pow(1-p,3);items.forEach(function(it){it.b.textContent=fmt(it.m,it.v*e)});if(p<1)raf=requestAnimationFrame(tick);else items.forEach(function(it){it.b.textContent=fmt(it.m,it.v)})}raf=requestAnimationFrame(tick)}
+var PREV={nps:-0.1727,sol:0.4909,csat:9.23,tr:0.2014,r72:0.2071,r30:0.0618,r24:0.1528,sc:0.014,tmo:535.17,hold:0.1001,tip:0.9706};var MEMES=[["😎🎧📞","Cuando el cliente dice","'Me solucionaron todo' 🥹"],["🤯📈🔟","El cliente ponía 10 en la encuesta","Y yo: ¿es real o es un sueño?"],["🕺💃📊","NPS subiendo","Yo bailando en mi silla 🪑"],["🙏😅🗣️","Yo, al despedirme:","'Recuerde la encuestaaa, por favor'"],["🦸‍♂️📞✅","Asesor que resuelve a la primera","Cliente feliz, SOL feliz 🌞"],["😴☕📞","Lunes, 8 a. m., primera llamada","Café: nivel 100 ☕🔥"],["🤝😁🎯","Equipo unido","Indicadores en verde 💚"]],lastM=-1;
+function meme(){var m=document.getElementById("introMeme");if(!m)return;var i;do{i=Math.floor(Math.random()*MEMES.length)}while(i==lastM&&MEMES.length>1);lastM=i;var x=MEMES[i];m.innerHTML='<div class="mt"></div><div class="me"></div><div class="mb"></div>';m.children[0].textContent=x[1];m.children[1].textContent=x[0];m.children[2].textContent=x[2]}
+function end(){clearTimeout(tm);el.classList.add("out")}
+function play(){clearTimeout(tm);kp();meme();el.classList.remove("out");el.style.display="none";void el.offsetWidth;el.style.display="";tm=setTimeout(end,7500)}
+el.addEventListener("click",end);window.replayIntro=play;
+var b=document.getElementById("replayBtn");if(b)b.addEventListener("click",play);
+play()})();
+function objOpen(){const m=document.getElementById("objM");m.hidden=false;document.body.style.overflow="hidden";m.querySelector(".omx").focus()}
+function objClose(){const m=document.getElementById("objM");m.hidden=true;document.body.style.overflow="";document.getElementById("objBtn").focus()}
+addEventListener("keydown",e=>{if(e.key=="Escape"&&!document.getElementById("objM").hidden)objClose()});
+
+function mqOpen(){const m=document.getElementById("mqM");m.hidden=false;document.body.style.overflow="hidden";m.querySelector(".omx").focus()}
+function mqClose(){const m=document.getElementById("mqM");m.hidden=true;document.body.style.overflow="";document.getElementById("mqBtn").focus()}
+addEventListener("keydown",e=>{if(e.key=="Escape"&&!document.getElementById("mqM").hidden)mqClose()});
+try{go()}catch(e){console.error(e)}
+</script></body></html>
